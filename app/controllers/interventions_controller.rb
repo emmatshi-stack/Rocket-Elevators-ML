@@ -1,5 +1,5 @@
 class InterventionsController < ApplicationController
-    #before_action :require_login
+    before_action :require_login
     # Restricting action only to log in users with authorisation
     
     def require_login
