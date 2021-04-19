@@ -58,7 +58,7 @@
 										<%= link_to "CONTACT" , "#{root_path}home#contact"%>
 										
 									</li>
-																		<li>
+									<li>
 									
 										<% if current_user%>
 											<% if current_user.admin%>
@@ -67,6 +67,16 @@
 										<% end %>
 								
 									</li>
+									<li>
+									
+										<% if current_user%>
+											<% if current_user.admin%>
+											<%= link_to "SPEECH" , "#{root_path}speech#speech"%>
+											<% end %>
+										<% end %>
+								
+									</li>
+									
 									
 									<li>
 									

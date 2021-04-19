@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   devise_for :users
   
   root to: "home#index"
-  
+  get '/speech'       => 'speech#speech'
   get '/commercial'   => 'pages#commercial'
   get "/home"         => 'home#index'
   get '/404'          => 'pages#404'
