@@ -1,12 +1,13 @@
 
   ###IDENTIFICATION
     def identifySpeaker
+        audiofile = File.open("app/assets/audio/test.wav") ##File.open("app/assets/audio/#{audioFileLoadedInView}")
         connection = Excon.post('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds={profileIds}',
         headers:{
-          'Content-Type' => 'application/json',
+            'Content-Type' => 'audio/wave',
             'Ocp-Apim-Subscription-Key' => "#{ENV['AZURE_KEY']}"
         },
-        body: audio/wave
+        body: audiofile,
       )
     end
 
