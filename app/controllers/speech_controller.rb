@@ -1,3 +1,6 @@
+require 'net/http'
+require 'json'
+
 class SpeechController < ApplicationController
     before_action :require_login
     # Restricting action only to log in users with authorisation
@@ -11,10 +14,18 @@ class SpeechController < ApplicationController
     def new
         @speech = Speech.new
     end
+   
+
+    def identification
+        puts "######################################################################"
+    end  
+
+    def speechToText
+        puts "************************************************************************"
+    end
+    def profile
+        puts "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
+    end
 
    
 end
-
-
-
-
