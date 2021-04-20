@@ -1,2 +1,94 @@
-<script src="microsoft.cognitiveservices.speech.sdk.bundle.js"></script>;
-<br> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div class="container">
+    <div class="heading-title heading-dotted text-center mb-20">
+        <h2> SPEECH RECOGNITION</h2>
+    </div>
+    <nav class="nav ">
+        
+        <a class="nav-link" href="#create_profile" data-toggle="tab">PROFILE</a>
+        <a class="nav-link" href="#identification"data-toggle="tab">IDENTITY CHECK</a>
+        <a class="nav-link " href="#speechtotext"data-toggle="tab">SPEECH TO TEXT</a>
+    </nav>
+    <br>
+     <br> <br> <br> <br> <br> <br> <br> <br>
+    <div class="tab-content">
+            <div class="tab-pane active" id="create_profile">
+                <div class="card-block">
+                    <%= form_tag 'speech/profile', multipart: true do %>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-8">
+                                <%= button_tag(type: 'submit', class: "btn btn-primary", id: "get_profiles_file", name: "get_profiles_file") do %> GET ALL PROFILES <% end %>
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="speechtotext">
+                <div class="card-block">
+                    <%= form_tag 'speech/speechToText', multipart: true do %>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-8">
+                                <p>UPLOAD YOUR AUDIO FILE HERE</p>
+                                    <input class="custom-file-upload" type="file" accept="audio/*" id="speech_to_text_file" name="speech_to_text_file" id="speech_to_text_file" data-btn-text="Select a File" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-8">
+                                <%= button_tag(type: 'submit', class: "btn btn-primary") do %> CONVERT AUDIO TO TEXT <% end %>
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="identification">
+                <div class="card-block">
+                    <%= form_tag 'speech/identification', multipart: true do %>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-8">
+                                <p>UPLOAD YOUR AUDIO FILE HERE</p>
+                                    <p><input class="custom-file-upload" type="file" accept="image/*" id="uploadedFile" name="identification_file" id="identification_file" data-btn-text="Select a File" /><span id ="span"></span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-8">
+                                <%= button_tag(type: 'submit', class: "btn btn-primary", id: "ghj")  do %> IDENTIFY USERS <% end %>
+
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    
+        
+    </div>
+      
+   
+    
+
+   
+
+    
+    
+        
+</div>
+<script>
+    window.addEventListener('load', function () {
+        document.getElementById('ghj').addEventListener("click", function(){
+            //alert("clicked")
+
+            var filename = document.getElementById("uploadedFile").value;
+
+            if (filename == ""){
+                document.getElementById("span")
+
+            }
+
+        })
+        
+           
+        
+    })
+
+</script>
