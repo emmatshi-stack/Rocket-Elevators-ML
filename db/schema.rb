@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_23_033614) do
+ActiveRecord::Schema.define(version: 2021_04_20_034023) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "type_address"
@@ -170,6 +170,12 @@ ActiveRecord::Schema.define(version: 2021_03_23_033614) do
     t.string "filename"
     t.bigint "customer_id"
     t.index ["customer_id"], name: "index_leads_on_customer_id"
+  end
+
+  create_table "profile_ids", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "quotes", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
