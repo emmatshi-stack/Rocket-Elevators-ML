@@ -24,11 +24,12 @@ Rails.application.routes.draw do
   post '/interventions/getbatteries'       => 'interventions#getbatteries'
   post '/interventions/getcolumns'       => 'interventions#getcolumns'
   post '/interventions/getelevators'       => 'interventions#getelevators'
-  post "/speech/enrollment" => "recognition#enrollment"
+  post "/speech/enrollment" => "speech#enrollment"
   
   get "/speech/get_profile" => "speech#get_profile"
   get "/speech/profile" => "speech#profile"
-  post "/speech/profile" => "speech#profile"
+  post "/speech/enrollment" => "speech#enrollment"
+
   post "/speech/identification" => "speech#identification"
   post "/speech/speechToText" => "speech#speechToText"
   get '/residential'  => 'pages#residential'

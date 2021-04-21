@@ -14,11 +14,14 @@
             <div class="tab-pane active" id="createProfile">
                 <div class="card-block">
                     <div class="row">
-                        <div class="col-md-12 col-sm-8">
-                            <div id="createContainer" style="min-height:300px">
+                        <form action="/speech/enrollment" method="post">
+                            <div class="col-md-12 col-sm-8">
+                                <div id="createContainer" style="min-height:300px">
+                                </div>
+                                <%= text_field_tag 'user_name' %>
+                                <%= button_tag(type: 'submit', class: "btn btn-primary", id: "createProfilesBtn", name: "get_profiles_file") do %> CREATE PROFILES <% end %>
                             </div>
-                            <%= button_tag(type: 'submit', class: "btn btn-primary", id: "createProfilesBtn", name: "get_profiles_file") do %> CREATE PROFILES <% end %>
-                        </div>
+                        </form>                        
                     </div>
                 </div>
             </div>
@@ -33,7 +36,7 @@
                     </div>
                 </div>
             </div>
-               
+                              
 
             <div class="tab-pane fade" id="speechtotext">
                 <div class="card-block">
@@ -64,27 +67,28 @@
                             <div class="col-md-12 col-sm-8">
                                 <p>UPLOAD YOUR AUDIO FILE HERE</p>
                                     <fieldset class="form-group">
-       </tr>
-    <legend class="col-form-label pt-0">Speaker</legend>
+      
+                                        <legend class="col-form-label pt-0">Speaker</legend>
     
-    <% @profile.each do |p| %>
-    <div class="custom-control custom-checkbox custom-control-inline">
-      <input class="custom-control-input" type="checkbox" name="profile_id" id="profile_id" value="<%p.profile_id%>">
-      <label class="custom-control-label" for="profile_id" ><%=p.user_name%></label>
-      </div>
-    <% end %>
-    
-    <%# <div class="custom-control custom-checkbox custom-control-inline">
-      <input class="custom-control-input" type="checkbox" name="profile_id" id="profile_id2" value="dc53bdab-feef-4310-aefd-b5f8581ddd6e" >
-      <label class="custom-control-label" for="profile_id2">Marie-Eve</label>
-    </div>
-    <div class="custom-control custom-checkbox custom-control-inline">
-      <input class="custom-control-input" type="checkbox" name="profile_id" id="profile_id3" value="f30c4fde-4431-497d-83c1-4ab89f19fc07" >
-      <label class="custom-control-label" for="profile_id3">Emmanuel</label>
-    </div> %>
-    
-    <small class="form-text text-muted">Collection as inline check boxes example</small>
-  </fieldset>
+                                        <% @profile.each do |p| %>
+                                       
+                                            <div class="custom-control custom-checkbox custom-control-inline">
+                                                <input class="custom-control-input" type="checkbox" name="profile_id" id="profile_id" value="0">
+                                                <label class="custom-control-label" for="profile_id" ><%=p.user_name%></label>
+                                            </div>
+                                        <% end %>
+                                        
+                                        <%# <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input class="custom-control-input" type="checkbox" name="profile_id" id="profile_id2" value="dc53bdab-feef-4310-aefd-b5f8581ddd6e" >
+                                        <label class="custom-control-label" for="profile_id2">Marie-Eve</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input class="custom-control-input" type="checkbox" name="profile_id" id="profile_id3" value="f30c4fde-4431-497d-83c1-4ab89f19fc07" >
+                                        <label class="custom-control-label" for="profile_id3">Emmanuel</label>
+                                        </div> %>
+                                        
+                                        <%# <small class="form-text text-muted">Collection as inline check boxes example</small> %>
+                                    </fieldset>
                                     <p><input class="custom-file-upload" type="file" accept="audio/*" name="identification_file" id="identification_file" data-btn-text="Select a File" /><span id ="span"></span></p>
                             </div>
                         </div>
@@ -181,7 +185,7 @@
             console.log("CREATE BUTTON DETECTED")
             $.ajax({
                 type: "POST",
-                url: "/speech/profile",
+                url: "/speech/enrollment",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(xht){
@@ -193,14 +197,14 @@
                     secondDivContainer =  $("<div/>")
                     secondDivContainer.attr("class","row")
 
-                    secondDivContainer.append($('<div class="col-6"><label><h4>createdDateTime: </h4></label></div><div class="col-6"><label>' + xht.createdDateTime + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentStatus: </h4></label></div><div class="col-6"><label>' + xht.enrollmentStatus + '</label</div>')); 
-                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsCount: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsCount + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsSpeechLength + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>profileId: </h4></label></div><div class="col-6"><label>' + xht.profileId + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>remainingEnrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>'+ xht.remainingEnrollmentsSpeechLength + '</label>'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>locale: </h4></label></div><div class="col-6"><label>' + xht.locale + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>modelVersion:</h4></label></div><div class="col-6"><label>' + xht.modelVersion + '</label></div'));
+                    // secondDivContainer.append($('<div class="col-6"><label><h4>createdDateTime: </h4></label></div><div class="col-6"><label>' + xht.createdDateTime + '</label></div'));
+                    // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentStatus: </h4></label></div><div class="col-6"><label>' + xht.enrollmentStatus + '</label</div>')); 
+                    // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsCount: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsCount + '</label></div'));
+                    // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsSpeechLength + '</label></div'));
+                    // secondDivContainer.append($('<div class="col-6"><label><h4>profileId: </h4></label></div><div class="col-6"><label>' + xht.profileId + '</label></div'));
+                    // secondDivContainer.append($('<div class="col-6"><label><h4>remainingEnrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>'+ xht.remainingEnrollmentsSpeechLength + '</label>'));
+                    // secondDivContainer.append($('<div class="col-6"><label><h4>locale: </h4></label></div><div class="col-6"><label>' + xht.locale + '</label></div'));
+                    // secondDivContainer.append($('<div class="col-6"><label><h4>modelVersion:</h4></label></div><div class="col-6"><label>' + xht.modelVersion + '</label></div'));
 
                     container.append(secondDivContainer)
                 }

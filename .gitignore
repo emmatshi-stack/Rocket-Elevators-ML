@@ -31,3 +31,4 @@
 /config/application.yml
 
 /config/database.yml
+/config/pg.yml
