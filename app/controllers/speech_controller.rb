@@ -14,38 +14,29 @@ class SpeechController < ApplicationController
           redirect_to main_app.root_path # halts request cycle
         end
       end
+
     def new
         @speech = Speech.new
+        puts @speech
+        # @speech = params["file_name"]
     end
+
     def get_profile
-        puts "*****************************ghghjfjdkdkng*******************************************"
-        uri = URI('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles')
-            uri.query = URI.encode_www_form({})
-            puts "================================================="
-            puts "URL : #{uri}"
-            puts "================================================="
-
-            request = Net::HTTP::Get.new(uri.request_uri)
-
-            # Creating the GET request with the content-type & key header along with the binary file upload as body
-            request['Ocp-Apim-Subscription-Key'] = '3c43bca9ad884fe39518a5cf3925e707'
-            request.body = "{body}"
-
-            response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
-                http.request(request)
-            end
-
-            puts "================================================="
-            pp response.body
-            puts "================================================="
-    
-            p JSON.parse(response.body)
-            # Rendering the respone body
-           # render json: response.body
-            respond_to do |format|
-                format.json { render json:  response.body }
-            end
-            # render json: JSON.parse(response.body)
+        profil =
+        Excon.get(
+          'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
+          headers: {
+            'Content-Type' => 'application/json',
+            'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+          },
+          body: JSON.generate("locale": 'en-us')
+        )
+        puts profil.body
+        return profil.body
+        parsed = JSON.parse(profil.body)
+            return parsed['profiles']
+        rescue Excon::Error => e
+            puts "Error: #{e}"
 
     end
 
@@ -57,31 +48,38 @@ class SpeechController < ApplicationController
    
 
     def identification
-        
+        file = params[:uploadedFile]
+        # audiofile = File.open(file)
+        speaker = Excon.post('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=dc53bdab-feef-4310-aefd-b5f8581ddd6e',
+            headers:{
+                'Content-Type' => 'audio/wave',
+                'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+            },
+            body: file,
+          )
+          puts speaker.body
+          puts "=============="
+          puts @speech
+          return JSON.parse(speaker.body)
     end  
 
-    def speechToText
-        # convert file into binary
-        puts "************************************************************************"
 
-        
+    def create_profile
+        connection =s
+        Excon.post(
+          'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
+          headers: {
+            'Content-Type' => 'application/json',
+            'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+          },
+          body: JSON.generate("locale": 'en-us')
+        )
+      return connection.body
     end
 
-    def profile
-        uri = URI('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles')
-        uri.query = URI.encode_www_form({})
-        result = Net::HTTP.new(uri.host, uri.port)
-        request = Net::HTTP::Post.new(uri)
-        request['Content-Type'] = 'application/json'
-        request['Ocp-Apim-Subscription-Key'] = '3c43bca9ad884fe39518a5cf3925e707'
-        request.body = '{ "locale":"en-us", }'
-        response = result.request(request)
-        pp response.body
-        respond_to do |format|
-            format.json { render json:  response.body }
-        end
-    puts "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
-    end
+    def speech_params
+        params.require(:identification).permit(:file)
+      end
     
 
    
