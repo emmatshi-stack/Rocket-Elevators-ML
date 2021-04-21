@@ -66,12 +66,14 @@
                                     <fieldset class="form-group">
        </tr>
     <legend class="col-form-label pt-0">Speaker</legend>
-    <div class="custom-control custom-checkbox custom-control-inline">
+    
     <% @profile.each do |p| %>
+    <div class="custom-control custom-checkbox custom-control-inline">
       <input class="custom-control-input" type="checkbox" name="profile_id" id="profile_id" value="<%p.profile_id%>">
-      <label class="custom-control-label" for="profile_id" >"><%=p.user_name%></label>
+      <label class="custom-control-label" for="profile_id" ><%=p.user_name%></label>
+      </div>
     <% end %>
-    </div>
+    
     <%# <div class="custom-control custom-checkbox custom-control-inline">
       <input class="custom-control-input" type="checkbox" name="profile_id" id="profile_id2" value="dc53bdab-feef-4310-aefd-b5f8581ddd6e" >
       <label class="custom-control-label" for="profile_id2">Marie-Eve</label>

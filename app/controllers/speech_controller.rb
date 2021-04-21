@@ -46,7 +46,18 @@ class SpeechController < ApplicationController
 
 
     def enrollment
-        
+        connection =s
+        Excon.post(
+          'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
+          headers: {
+            'Content-Type' => 'application/json',
+            'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+          },
+          body: JSON.generate("locale": 'en-us')
+        )
+      return connection.body
+
+      
     end
     
    
@@ -71,21 +82,12 @@ class SpeechController < ApplicationController
 
 
     def create_profile
-        connection =s
-        Excon.post(
-          'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
-          headers: {
-            'Content-Type' => 'application/json',
-            'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
-          },
-          body: JSON.generate("locale": 'en-us')
-        )
-      return connection.body
+       
     end
 
     def speech_params
         params.require(:identification).permit(:file)
-      end
+    end
     
 
    
