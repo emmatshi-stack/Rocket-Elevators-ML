@@ -41,14 +41,18 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-8">
                                 <p>UPLOAD YOUR AUDIO FILE HERE</p>
-                                    <input class="custom-file-upload" type="file" accept="audio/*" id="speech_to_text_file" name="speech_to_text_file" id="speech_to_text_file" data-btn-text="Select a File" />
+                                <input type="file" id="filePicker" accept=".wav" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-sm-8">
-                                <%= button_tag(type: 'submit', class: "btn btn-primary") do %> CONVERT AUDIO TO TEXT <% end %>
+                                <td><button id="startRecognizeOnceAsyncButton">Start recognition</button></td>
                             </div>
                         </div>
+                        <tr>
+                            <td align="right" valign="top">Results</td>
+                            <td><textarea id="phraseDiv" style="display: inline-block;width:500px;height:200px"></textarea></td>
+                        </tr>
                     <% end %>
                 </div>
             </div>
@@ -59,7 +63,7 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-8">
                                 <p>UPLOAD YOUR AUDIO FILE HERE</p>
-                                    <p><input class="custom-file-upload" type="file" accept="image/*" id="uploadedFile" name="identification_file" id="identification_file" data-btn-text="Select a File" /><span id ="span"></span></p>
+                                    <p><input class="custom-file-upload" type="file" accept="audio/*" id="uploadedFile" name="identification_file" id="identification_file" data-btn-text="Select a File" /><span id ="span"></span></p>
                             </div>
                         </div>
                         <div class="row">
@@ -72,19 +76,11 @@
                 </div>
             </div>
         </div>
-    
-        
     </div>
-      
-   
-    
-
-   
-
-    
-    
-        
 </div>
+
+<script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+
 <script>
     window.addEventListener('load', function () {
         document.getElementById('getAllProfileBtn').addEventListener("click", function(event){
@@ -185,18 +181,67 @@
                     secondDivContainer.append($('<div class="col-6"><label><h4>modelVersion:</h4></label></div><div class="col-6"><label>' + xht.modelVersion + '</label></div'));
 
                     container.append(secondDivContainer)
-
-
-
-
-                
-
                 }
-
             })
-         })
-
-            
+         })   
     })
-
 </script>
+
+  <script>
+    // status fields and start button in UI
+    var phraseDiv;
+    var startRecognizeOnceAsyncButton;
+    var filePicker, audioFile;
+
+    // subscription key and region for speech services.
+    var subscriptionKey, serviceRegion;
+    var SpeechSDK;
+    var recognizer;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      startRecognizeOnceAsyncButton = document.getElementById("startRecognizeOnceAsyncButton");
+      phraseDiv = document.getElementById("phraseDiv");
+      filePicker = document.getElementById("filePicker");
+      filePicker.addEventListener("change", function () {
+          audioFile = filePicker.files[0];
+          startRecognizeOnceAsyncButton.disabled = false;
+      });
+
+      startRecognizeOnceAsyncButton.addEventListener("click", function () {
+        startRecognizeOnceAsyncButton.disabled = true;
+        phraseDiv.innerHTML = "";
+
+        var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("6707a37608394bba866355675860c8d8", "southcentralus");
+
+        speechConfig.speechRecognitionLanguage = "en-US";
+        var audioConfig  = SpeechSDK.AudioConfig.fromWavFileInput(audioFile);
+        recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+
+        recognizer.recognizeOnceAsync(
+          function (result) {
+            startRecognizeOnceAsyncButton.disabled = false;
+            phraseDiv.innerHTML += result.text;
+            window.console.log(result);
+
+            recognizer.close();
+            recognizer = undefined;
+          },
+          function (err) {
+            startRecognizeOnceAsyncButton.disabled = false;
+            phraseDiv.innerHTML += err;
+            window.console.log(err);
+
+            recognizer.close();
+            recognizer = undefined;
+          });
+      });
+
+      if (!!window.SpeechSDK) {
+        SpeechSDK = window.SpeechSDK;
+        startRecognizeOnceAsyncButton.disabled = false;
+
+        document.getElementById('content').style.display = 'block';
+        document.getElementById('warning').style.display = 'none';
+      }
+    });
+  </script>

@@ -1,4 +1,5 @@
 require 'json'
+
 require 'net/http'
 
 
@@ -19,9 +20,13 @@ class SpeechController < ApplicationController
         puts "*****************************ghghjfjdkdkng*******************************************"
         uri = URI('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles')
             uri.query = URI.encode_www_form({})
-            
+            puts "================================================="
+            puts "URL : #{uri}"
+            puts "================================================="
+
             request = Net::HTTP::Get.new(uri.request_uri)
 
+            # Creating the GET request with the content-type & key header along with the binary file upload as body
             request['Ocp-Apim-Subscription-Key'] = '3c43bca9ad884fe39518a5cf3925e707'
             request.body = "{body}"
 
@@ -29,13 +34,17 @@ class SpeechController < ApplicationController
                 http.request(request)
             end
 
-
+            puts "================================================="
+            pp response.body
+            puts "================================================="
+    
             p JSON.parse(response.body)
-            
+            # Rendering the respone body
+           # render json: response.body
             respond_to do |format|
                 format.json { render json:  response.body }
             end
-            
+            # render json: JSON.parse(response.body)
 
     end
 
@@ -47,8 +56,6 @@ class SpeechController < ApplicationController
    
 
     def identification
-        
-        
         
     end  
 
