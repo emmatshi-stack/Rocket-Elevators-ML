@@ -48,9 +48,12 @@ class SpeechController < ApplicationController
    
 
     def identification
-        file = params[:uploadedFile]
+        file = params[:identification_file]
+        profileid = params[:profile_id]
+        puts "================================"
+        puts profileid
         # audiofile = File.open(file)
-        speaker = Excon.post('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=dc53bdab-feef-4310-aefd-b5f8581ddd6e',
+        speaker = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=" + profileid,
             headers:{
                 'Content-Type' => 'audio/wave',
                 'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
@@ -58,7 +61,6 @@ class SpeechController < ApplicationController
             body: file,
           )
           puts speaker.body
-          puts "=============="
           puts @speech
           return JSON.parse(speaker.body)
     end  
