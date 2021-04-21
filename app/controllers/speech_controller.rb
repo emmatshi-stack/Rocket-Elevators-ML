@@ -6,6 +6,7 @@ require 'net/http'
 
 class SpeechController < ApplicationController
     before_action :require_login
+    before_action :speech
     # Restricting action only to log in users with authorisation
     
     def require_login
@@ -13,11 +14,14 @@ class SpeechController < ApplicationController
           flash[:error] = "You must be logged in to access this section"
           redirect_to main_app.root_path # halts request cycle
         end
-      end
+        
+    end
 
     def speech
         @profile = ProfileId.all
+        puts @profile
     end
+    #speech();
 
     def new
         @speech = Speech.new
@@ -35,7 +39,11 @@ class SpeechController < ApplicationController
           },
           body: JSON.generate("locale": 'en-us')
         )
+        puts "======="
         puts profil.body
+        @profilTest = profil.body
+        puts "======="
+        
         return profil.body
         parsed = JSON.parse(profil.body)
             return parsed['profiles']
@@ -46,7 +54,9 @@ class SpeechController < ApplicationController
 
 
     def enrollment
-        connection =s
+     
+      user_name = params[:user_name]
+        connection =
         Excon.post(
           'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
           headers: {
@@ -55,9 +65,17 @@ class SpeechController < ApplicationController
           },
           body: JSON.generate("locale": 'en-us')
         )
-      return connection.body
+        puts"==============================="
+        puts params
+        parsed = JSON.parse(connection.body)
+        puts user_name
+      @profile = ProfileId.new
+      @profile.user_name = user_name
+      @profile.profile_id = parsed["profileId"]
+      @profile.save
 
-      
+
+      return connection.body
     end
     
    
