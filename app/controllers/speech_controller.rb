@@ -56,6 +56,7 @@ class SpeechController < ApplicationController
     def enrollment
      
       user_name = params[:user_name]
+      
         connection =
         Excon.post(
           'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
@@ -73,9 +74,13 @@ class SpeechController < ApplicationController
       @profile.user_name = user_name
       @profile.profile_id = parsed["profileId"]
       @profile.save
+      create_profile();
 
 
-      return connection.body
+      
+
+
+      
     end
     
    
@@ -95,12 +100,28 @@ class SpeechController < ApplicationController
           )
           puts speaker.body
           puts @speech
+          
           return JSON.parse(speaker.body)
+          
     end  
 
 
     def create_profile
-       
+      puts "create profile"
+      fileTest = params[:enrollment_file]
+      puts fileTest
+      # audiofile = File.open("app/assets/audios/test.wav") ##File.open("app/assets/audio/#{audioFileLoaded}")
+      enroll = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/#{@profile.profile_id}/enrollments",
+      headers: {
+          'Content-Type' => 'audio/wave',
+          'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+      },
+      body: fileTest,
+      )
+      
+     puts enroll.body
+      #puts "==============enroll"
+      return enroll.body
     end
 
     def speech_params

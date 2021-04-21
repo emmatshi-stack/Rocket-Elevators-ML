@@ -16,7 +16,9 @@
                     <div class="row">
                         <form action="/speech/enrollment" method="post">
                             <div class="col-md-12 col-sm-8">
-                                <div id="createContainer" style="min-height:300px">
+                                <div class="col-md-12 col-sm-8">
+                                    <p>UPLOAD YOUR AUDIO FILE HERE</p>
+                                   <input class="custom-file-upload" type="file" accept=".wav" name="enrollment_file" id="enrollment_file" data-btn-text="Select a File" /><span id ="span"></span></p>
                                 </div>
                                 <%= text_field_tag 'user_name' %>
                                 <%= button_tag(type: 'submit', class: "btn btn-primary", id: "createProfilesBtn", name: "get_profiles_file") do %> CREATE PROFILES <% end %>
@@ -181,35 +183,35 @@
             });
                 
         })
-        document.getElementById('createProfilesBtn').addEventListener("click", function(event){
-            console.log("CREATE BUTTON DETECTED")
-            $.ajax({
-                type: "POST",
-                url: "/speech/enrollment",
-                dataType: "json",
-                contentType: "application/json",
-                success: function(xht){
+        // document.getElementById('createProfilesBtn').addEventListener("click", function(event){
+        //     console.log("CREATE BUTTON DETECTED")
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/speech/enrollment",
+        //         dataType: "json",
+        //         contentType: "application/json",
+        //         success: function(xht){
                     
-                    console.log(xht);
-                    var container =  $("#createContainer")
-                    container.html("")
+        //             console.log(xht);
+        //             var container =  $("#createContainer")
+        //             container.html("")
 
-                    secondDivContainer =  $("<div/>")
-                    secondDivContainer.attr("class","row")
+        //             secondDivContainer =  $("<div/>")
+        //             secondDivContainer.attr("class","row")
 
-                    // secondDivContainer.append($('<div class="col-6"><label><h4>createdDateTime: </h4></label></div><div class="col-6"><label>' + xht.createdDateTime + '</label></div'));
-                    // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentStatus: </h4></label></div><div class="col-6"><label>' + xht.enrollmentStatus + '</label</div>')); 
-                    // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsCount: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsCount + '</label></div'));
-                    // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsSpeechLength + '</label></div'));
-                    // secondDivContainer.append($('<div class="col-6"><label><h4>profileId: </h4></label></div><div class="col-6"><label>' + xht.profileId + '</label></div'));
-                    // secondDivContainer.append($('<div class="col-6"><label><h4>remainingEnrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>'+ xht.remainingEnrollmentsSpeechLength + '</label>'));
-                    // secondDivContainer.append($('<div class="col-6"><label><h4>locale: </h4></label></div><div class="col-6"><label>' + xht.locale + '</label></div'));
-                    // secondDivContainer.append($('<div class="col-6"><label><h4>modelVersion:</h4></label></div><div class="col-6"><label>' + xht.modelVersion + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>createdDateTime: </h4></label></div><div class="col-6"><label>' + xht.createdDateTime + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentStatus: </h4></label></div><div class="col-6"><label>' + xht.enrollmentStatus + '</label</div>')); 
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsCount: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsCount + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsSpeechLength + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>profileId: </h4></label></div><div class="col-6"><label>' + xht.profileId + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>remainingEnrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>'+ xht.remainingEnrollmentsSpeechLength + '</label>'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>locale: </h4></label></div><div class="col-6"><label>' + xht.locale + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>modelVersion:</h4></label></div><div class="col-6"><label>' + xht.modelVersion + '</label></div'));
 
-                    container.append(secondDivContainer)
-                }
-            })
-         })   
+        //             container.append(secondDivContainer)
+        //         }
+        //     })
+        //  })   
     })
 </script>
 
