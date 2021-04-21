@@ -22,7 +22,6 @@ class SpeechController < ApplicationController
         uri = URI('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles')
             uri.query = URI.encode_www_form({})
             
-
             request = Net::HTTP::Get.new(uri.request_uri)
 
             request['Ocp-Apim-Subscription-Key'] = '3c43bca9ad884fe39518a5cf3925e707'
@@ -50,6 +49,29 @@ class SpeechController < ApplicationController
    
 
     def identification
+        puts "******************************IDENTIFY******************************************"
+        puts "************************************************************************"
+        require 'net/http'
+
+        uri = URI('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds={profileIds}')
+        uri.query = URI.encode_www_form({
+            # Request parameters
+            'shortAudio' => '{boolean}'
+        })
+
+        request = Net::HTTP::Post.new(uri.request_uri)
+        # Request headers
+        request['Content-Type'] = 'AUDIO/WAVE'
+        # Request headers
+        request['Ocp-Apim-Subscription-Key'] = '3c43bca9ad884fe39518a5cf3925e707'
+        # Request body
+        request.body = "{body}"
+
+        response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+            http.request(request)
+        end
+
+        puts response.body
         
     end  
 
