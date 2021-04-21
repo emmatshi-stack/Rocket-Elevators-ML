@@ -4,14 +4,14 @@
     </div>
     <nav class="nav ">
         
-        <a class="nav-link" href="#create_profile" data-toggle="tab">PROFILE</a>
+        <a class="nav-link" href="#createProfile" data-toggle="tab">PROFILE</a>
         <a class="nav-link" href="#identification"data-toggle="tab">IDENTITY CHECK</a>
         <a class="nav-link " href="#speechtotext"data-toggle="tab">SPEECH TO TEXT</a>
     </nav>
     <br>
      <br> <br> <br> <br> <br> <br> <br> <br>
     <div class="tab-content">
-            <div class="tab-pane active" id="create_profile">
+            <div class="tab-pane active" id="createProfile">
                 <div class="card-block">
                     <%= form_tag 'speech/profile', multipart: true do %>
                         <div class="row">
@@ -75,14 +75,18 @@
 </div>
 <script>
     window.addEventListener('load', function () {
-        document.getElementById('ghj').addEventListener("click", function(){
+        document.getElementById('ghj').addEventListener("click", function(event){
             //alert("clicked")
-
+            var error = false;
             var filename = document.getElementById("uploadedFile").value;
 
             if (filename == ""){
-                document.getElementById("span")
+                error = true;
+                document.getElementById("span").innerHTMl =" you must upload an audio file"
 
+            }
+            if (error){
+                event.preventDefault();
             }
 
         })
