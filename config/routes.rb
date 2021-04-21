@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   post '/interventions/getelevators'       => 'interventions#getelevators'
   post "/speech/enrollment" => "recognition#enrollment"
   
+  get "/speech/get_profile" => "speech#get_profile"
   get "/speech/profile" => "speech#profile"
   post "/speech/profile" => "speech#profile"
   post "/speech/identification" => "speech#identification"

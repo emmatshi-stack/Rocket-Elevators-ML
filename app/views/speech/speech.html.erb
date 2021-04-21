@@ -4,24 +4,36 @@
     </div>
     <nav class="nav ">
         
-        <a class="nav-link" href="#create_profile" data-toggle="tab">PROFILE</a>
+        <a class="nav-link" href="#createProfile" data-toggle="tab">CREATE A PROFILE</a>
+         <a class="nav-link " href="#get_profile"data-toggle="tab">GET A PROFILE</a>
         <a class="nav-link" href="#identification"data-toggle="tab">IDENTITY CHECK</a>
         <a class="nav-link " href="#speechtotext"data-toggle="tab">SPEECH TO TEXT</a>
+       
     </nav>
-    <br>
-     <br> <br> <br> <br> <br> <br> <br> <br>
-    <div class="tab-content">
-            <div class="tab-pane active" id="create_profile">
+    <div class="tab-content" style="min-height:300px">
+            <div class="tab-pane active" id="createProfile">
                 <div class="card-block">
-                    <%= form_tag 'speech/profile', multipart: true do %>
-                        <div class="row">
-                            <div class="col-md-12 col-sm-8">
-                                <%= button_tag(type: 'submit', class: "btn btn-primary", id: "get_profiles_file", name: "get_profiles_file") do %> GET ALL PROFILES <% end %>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-8">
+                            <div id="createContainer" style="min-height:300px">
                             </div>
+                            <%= button_tag(type: 'submit', class: "btn btn-primary", id: "createProfilesBtn", name: "get_profiles_file") do %> GET ALL PROFILES <% end %>
                         </div>
-                    <% end %>
+                    </div>
                 </div>
             </div>
+            <div class="tab-pane fade" id="get_profile">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-8">
+                            <div id="profiles-container" style="min-height:300px">
+                            </div>
+                            <%= button_tag(type: 'submit', class: "btn btn-primary", id: "getAllProfileBtn", name: "get_profiles_file") do %> GET ALL PROFILES <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+               
 
             <div class="tab-pane fade" id="speechtotext">
                 <div class="card-block">
@@ -75,20 +87,116 @@
 </div>
 <script>
     window.addEventListener('load', function () {
-        document.getElementById('ghj').addEventListener("click", function(){
-            //alert("clicked")
+        document.getElementById('getAllProfileBtn').addEventListener("click", function(event){
+            console.log("ssfshserhetehefgrgr")
+            $.ajax({
+                type: "GET",
+                url: "/speech/get_profile",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(xht){
+                    
+                    console.log(xht);
 
-            var filename = document.getElementById("uploadedFile").value;
+                    var container = $("#profiles-container")
+                    container.html("");
 
-            if (filename == ""){
-                document.getElementById("span")
+                    var table = $("<table/>")
+                    table.attr("class","table")
 
-            }
+                    //build header
+                    var thead  = $("<thead/>")
+                    thead.attr("class","thead-dark")
+                    table.append(thead);
+                    
 
+                    var theadtr = $("<tr/>")
+                    var theadth1 = $("<th>createdDateTime<th/>")
+                    //theadth1.attr("scope","col")
+                    var theadth2 = $("<th>profileId<th/>")
+                // theadth2.attr("scope","col")
+                    var theadth3 = $("<th>enrollmentsCount<th/>")
+                // theadth3.attr("scope","col")
+                    var theadth4 = $("<th>locale<th/>")
+                // theadth4.attr("scope","col")
+                    var theadth5 = $("<th>enrollmentsSpeechLength<th/>")
+                //  theadth5.attr("scope","col")
+
+                    theadtr.append(theadth1)
+                    theadtr.append(theadth2)
+                    theadtr.append(theadth3)
+                    theadtr.append(theadth4)
+                    theadtr.append(theadth4)
+                    theadtr.append(theadth5)
+                    thead.append(theadtr);
+
+                    //build tabl body
+                    for(x in xht.profiles){
+                        var trbd = $("<tr/>")
+                        console.log(xht.profiles[x])
+                        var item = xht.profiles[x];
+                        trbd.append($('<td>'+ item.createdDateTime + '</td>'));
+                        trbd.append("<td/>")
+                        trbd.append($('<td>'+ item.profileId + '</td>'));
+                        trbd.append("<td/>")
+                        trbd.append($('<td>'+ item.enrollmentsCount + '</td>'));
+                        trbd.append("<td/>")
+                        trbd.append($('<td>'+ item.locale + '</td>'));
+                        trbd.append("<td/>")
+                        trbd.append($('<td>'+ item.enrollmentsLength + '</td>'));
+                        trbd.append("<td/>")
+                        table.append(trbd);
+                    }
+            
+                    container.append(table)
+
+                var selector = document.getElementById("intervention_building_id")
+                $(selector).html('<option value="-1">Select building</option>')
+                $(selector).append($.map(xht, function(item){
+                    return $('<option/>', {id: item.id,value: item.id, text: item.id+" - "+item.adm_contact_full_name});
+                }));
+                }
+            });
+                
         })
-        
-           
-        
+        document.getElementById('createProfilesBtn').addEventListener("click", function(event){
+            console.log("CREATE BUTTON DETECTED")
+            $.ajax({
+                type: "POST",
+                url: "/speech/profile",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(xht){
+                    
+                    console.log(xht);
+                    var container =  $("#createContainer")
+                    container.html("")
+
+                    secondDivContainer =  $("<div/>")
+                    secondDivContainer.attr("class","row")
+
+                    secondDivContainer.append($('<div class="col-6"><label><h4>createdDateTime: </h4></label></div><div class="col-6"><label>' + xht.createdDateTime + '</label></div'));
+                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentStatus: </h4></label></div><div class="col-6"><label>' + xht.enrollmentStatus + '</label</div>')); 
+                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsCount: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsCount + '</label></div'));
+                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsSpeechLength + '</label></div'));
+                    secondDivContainer.append($('<div class="col-6"><label><h4>profileId: </h4></label></div><div class="col-6"><label>' + xht.profileId + '</label></div'));
+                    secondDivContainer.append($('<div class="col-6"><label><h4>remainingEnrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>'+ xht.remainingEnrollmentsSpeechLength + '</label>'));
+                    secondDivContainer.append($('<div class="col-6"><label><h4>locale: </h4></label></div><div class="col-6"><label>' + xht.locale + '</label></div'));
+                    secondDivContainer.append($('<div class="col-6"><label><h4>modelVersion:</h4></label></div><div class="col-6"><label>' + xht.modelVersion + '</label></div'));
+
+                    container.append(secondDivContainer)
+
+
+
+
+                
+
+                }
+
+            })
+         })
+
+            
     })
 
 </script>
