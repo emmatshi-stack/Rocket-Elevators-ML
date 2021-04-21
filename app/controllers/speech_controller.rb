@@ -15,6 +15,10 @@ class SpeechController < ApplicationController
         end
       end
 
+    def speech
+        @profile = ProfileId.all
+    end
+
     def new
         @speech = Speech.new
         puts @speech
@@ -49,11 +53,11 @@ class SpeechController < ApplicationController
 
     def identification
         file = params[:identification_file]
+        puts file
         profileid = params[:profile_id]
         puts "================================"
         puts profileid
-        # audiofile = File.open(file)
-        speaker = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=" + profileid,
+        speaker = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=" + profileid.to_s,
             headers:{
                 'Content-Type' => 'audio/wave',
                 'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"

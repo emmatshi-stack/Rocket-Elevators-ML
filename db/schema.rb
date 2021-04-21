@@ -173,7 +173,8 @@ ActiveRecord::Schema.define(version: 2021_04_20_034023) do
   end
 
   create_table "profile_ids", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name"
+    t.string "user_name"
+    t.string "profile_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
