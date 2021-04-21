@@ -211,7 +211,7 @@
         startRecognizeOnceAsyncButton.disabled = true;
         phraseDiv.innerHTML = "";
 
-        var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(ENV["STT_KEY"], ENV["STT_LOCATION"]);
+        var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(ENV["6707a37608394bba866355675860c8d8"], ENV["southcentralus"]);
 
         speechConfig.speechRecognitionLanguage = "en-US";
         var audioConfig  = SpeechSDK.AudioConfig.fromWavFileInput(audioFile);
