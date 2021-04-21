@@ -3,25 +3,6 @@ require 'httparty'
 require 'net/http'
 require 'net/http'
 
-uri = URI('https://westus.api.cognitive.microsoft.com/spid/v1.0/identificationProfiles/{identificationProfileId}/enroll')
-uri.query = URI.encode_www_form({
-    # Request parameters
-    'shortAudio' => '{boolean}'
-})
-
-request = Net::HTTP::Post.new(uri.request_uri)
-# Request headers
-request['Content-Type'] = 'multipart/form-data'
-# Request headers
-request['Ocp-Apim-Subscription-Key'] = '{subscription key}'
-# Request body
-request.body = "{body}"
-
-response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
-    http.request(request)
-end
-
-puts response.body
 
 class SpeechController < ApplicationController
     before_action :require_login
@@ -36,73 +17,72 @@ class SpeechController < ApplicationController
     def new
         @speech = Speech.new
     end
+    def get_profile
+        puts "*****************************ghghjfjdkdkng*******************************************"
+        uri = URI('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles')
+            uri.query = URI.encode_www_form({})
+            puts "================================================="
+            puts "URL : #{uri}"
+            puts "================================================="
+
+            request = Net::HTTP::Get.new(uri.request_uri)
+
+            # Creating the GET request with the content-type & key header along with the binary file upload as body
+            request['Ocp-Apim-Subscription-Key'] = '3c43bca9ad884fe39518a5cf3925e707'
+            request.body = "{body}"
+
+            response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+                http.request(request)
+            end
+
+            puts "================================================="
+            pp response.body
+            puts "================================================="
+    
+            p JSON.parse(response.body)
+            # Rendering the respone body
+           # render json: response.body
+            respond_to do |format|
+                format.json { render json:  response.body }
+            end
+            # render json: JSON.parse(response.body)
+
+    end
+
 
     def enrollment
         
-        uri = URI('https://westus.api.cognitive.microsoft.com/spid/v1.0/identificationProfiles/{identificationProfileId}/enroll')
-        uri.query = URI.encode_www_form({
-            # Request parameters
-            'shortAudio' => '{boolean}'
-        })
-
-        request = Net::HTTP::Post.new(uri.request_uri)
-        # Request headers
-        request['Content-Type'] = 'multipart/form-data'
-        # Request headers
-        request['Ocp-Apim-Subscription-Key'] = '{subscription key}'
-        # Request body
-        request.body = "{body}"
-
-        response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
-            http.request(request)
-        end
-
-        puts response.body
     end
     
    
 
     def identification
-        # convert file into binary
-        puts "######################################################################"
-        response = HTTParty.get("https://ipinfo.io/161.185.160.93/geo")
-        case response.code
-        # if the request is successfull
-        when 200
-            if response['region'].is_a? String and response['country'].is_a? String and response['city'].is_a? String
-                html_body="<div style='margin:0 auto; width:80%'><p>"+response["city"]+"</p>
-                                <p>"+response['region']+response["country"]+"</p>
-                                </div>"
-            else
-                html_body ="<div> there is a problem with the API try again later</div>"
-    
-            end
-          puts "All good!"
-        # in the case of 404 error
-        when 404
-          puts "O noes not found!"
-          html_body ="<div> there is a problem with the API try again later</div>"
-        # in the case of 500...600 error
-        when 500...600
-          puts "ZOMG ERROR #{response.code}"
-          html_body ="<div> there is a problem with the API try again later</div>"
-        end
-        puts response
+        
     end  
 
     def speechToText
         # convert file into binary
         puts "************************************************************************"
 
-        url .....................
-        recupere 
-
-        repsponse ............... view 
+        
     end
 
     def profile
-        puts "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
+        uri = URI('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles')
+        uri.query = URI.encode_www_form({})
+        result = Net::HTTP.new(uri.host, uri.port)
+        request = Net::HTTP::Post.new(uri)
+        request['Content-Type'] = 'application/json'
+        request['Ocp-Apim-Subscription-Key'] = '3c43bca9ad884fe39518a5cf3925e707'
+        request.body = '{ "locale":"en-us", }'
+        response = result.request(request)
+        pp response.body
+        respond_to do |format|
+            format.json { render json:  response.body }
+        end
+    puts "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
     end
+    
 
    
 end
