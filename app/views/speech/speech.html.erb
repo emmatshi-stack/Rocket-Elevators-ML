@@ -11,6 +11,7 @@
        
     </nav>
     <div class="tab-content" style="min-height:300px">
+    <%#  ========== CREATE PROFILE TAB ================= %>
             <div class="tab-pane fade" id="createProfile">
                 <div class="card-block">
                     <%= form_tag 'speech/enrollment', multipart: true do %>
@@ -34,7 +35,7 @@
                 </div>
             </div>
                               
-
+    <%# ==============SPEECH TO TEXT TAB ================= %>
             <div class="tab-pane fade" id="speechtotext">
                 <div class="card-block">
                     <%= form_tag 'speech/speechToText', multipart: true do %>
@@ -56,7 +57,7 @@
                     <% end %>
                 </div>
             </div>
-
+    <%# ===============INDENTIFICATION TAB ================ %>
             <div class="tab-pane fade" id="identification">
                 <div class="card-block">
                     <%= form_tag 'speech/identification', multipart: true do %>
@@ -92,127 +93,8 @@
     </div>
 </div>
 
-<script>
-    //document.querySelectorAll('input[type=checkbox]')
-    // document.getElementsByTagName("input[type=checkbox]"), function (){
-    //     console.log("ok");
-    // });
-    // window.addEventListener('load', function () {
-    //     document.getElementsById("#\37 6").addEventListener("click", function(event){
-    //         console.log("ok");
-    //     });
-    // });
-    
-
-
-</script>
+<%# javascrip for speech to text tab %>
 <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
-
-<script>
-    window.addEventListener('load', function () {
-        document.getElementById('getAllProfileBtn').addEventListener("click", function(event){
-            console.log("ssfshserhetehefgrgr")
-            $.ajax({
-                type: "GET",
-                url: "/speech/get_profile",
-                dataType: "json",
-                contentType: "application/json",
-                success: function(xht){
-                    
-                    console.log(xht);
-
-                    var container = $("#profiles-container")
-                    container.html("");
-
-                    var table = $("<table/>")
-                    table.attr("class","table")
-
-                    //build header
-                    var thead  = $("<thead/>")
-                    thead.attr("class","thead-dark")
-                    table.append(thead);
-                    
-
-                    var theadtr = $("<tr/>")
-                    var theadth1 = $("<th>createdDateTime<th/>")
-                    //theadth1.attr("scope","col")
-                    var theadth2 = $("<th>profileId<th/>")
-                // theadth2.attr("scope","col")
-                    var theadth3 = $("<th>enrollmentsCount<th/>")
-                // theadth3.attr("scope","col")
-                    var theadth4 = $("<th>locale<th/>")
-                // theadth4.attr("scope","col")
-                    var theadth5 = $("<th>enrollmentsSpeechLength<th/>")
-                //  theadth5.attr("scope","col")
-
-                    theadtr.append(theadth1)
-                    theadtr.append(theadth2)
-                    theadtr.append(theadth3)
-                    theadtr.append(theadth4)
-                    theadtr.append(theadth4)
-                    theadtr.append(theadth5)
-                    thead.append(theadtr);
-
-                    //build tabl body
-                    for(x in xht.profiles){
-                        var trbd = $("<tr/>")
-                        console.log(xht.profiles[x])
-                        var item = xht.profiles[x];
-                        trbd.append($('<td>'+ item.createdDateTime + '</td>'));
-                        trbd.append("<td/>")
-                        trbd.append($('<td>'+ item.profileId + '</td>'));
-                        trbd.append("<td/>")
-                        trbd.append($('<td>'+ item.enrollmentsCount + '</td>'));
-                        trbd.append("<td/>")
-                        trbd.append($('<td>'+ item.locale + '</td>'));
-                        trbd.append("<td/>")
-                        trbd.append($('<td>'+ item.enrollmentsLength + '</td>'));
-                        trbd.append("<td/>")
-                        table.append(trbd);
-                    }
-            
-                    container.append(table)
-
-                var selector = document.getElementById("intervention_building_id")
-                $(selector).html('<option value="-1">Select building</option>')
-                $(selector).append($.map(xht, function(item){
-                    return $('<option/>', {id: item.id,value: item.id, text: item.id+" - "+item.adm_contact_full_name});
-                }));
-                }
-            });
-                
-        })
-        // document.getElementById('createProfilesBtn').addEventListener("click", function(event){
-        //     console.log("CREATE BUTTON DETECTED")
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/speech/enrollment",
-        //         dataType: "json",
-        //         contentType: "application/json",
-        //         success: function(xht){
-                    
-        //             console.log(xht);
-        //             var container =  $("#createContainer")
-        //             container.html("")
-
-        //             secondDivContainer =  $("<div/>")
-        //             secondDivContainer.attr("class","row")
-
-        //             // secondDivContainer.append($('<div class="col-6"><label><h4>createdDateTime: </h4></label></div><div class="col-6"><label>' + xht.createdDateTime + '</label></div'));
-        //             // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentStatus: </h4></label></div><div class="col-6"><label>' + xht.enrollmentStatus + '</label</div>')); 
-        //             // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsCount: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsCount + '</label></div'));
-        //             // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsSpeechLength + '</label></div'));
-        //             // secondDivContainer.append($('<div class="col-6"><label><h4>profileId: </h4></label></div><div class="col-6"><label>' + xht.profileId + '</label></div'));
-        //             // secondDivContainer.append($('<div class="col-6"><label><h4>remainingEnrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>'+ xht.remainingEnrollmentsSpeechLength + '</label>'));
-        //             // secondDivContainer.append($('<div class="col-6"><label><h4>locale: </h4></label></div><div class="col-6"><label>' + xht.locale + '</label></div'));
-        //             // secondDivContainer.append($('<div class="col-6"><label><h4>modelVersion:</h4></label></div><div class="col-6"><label>' + xht.modelVersion + '</label></div'));
-
-        //             container.append(secondDivContainer)
-        //         }
-        //     })
-        //  })   
-    })
-</script>
 
   <script>
     // status fields and start button in UI
