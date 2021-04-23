@@ -29,7 +29,7 @@ class SpeechController < ApplicationController
     def get_profile
       
         profil =
-        Excon.get(
+        HTTParty.get(
           'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
           headers: {
             'Content-Type' => 'application/json',
@@ -40,15 +40,15 @@ class SpeechController < ApplicationController
         return profil.body
         parsed = JSON.parse(profil.body)
             return parsed['profiles']
-        rescue Excon::Error => e
+        rescue HTTParty::Error => e
             puts "Error: #{e}"
 
     end
 ####################################### CREATE AND ENROLL NEW PROFILE ###################
     def enrollment
-      
+     
       connection =
-        Excon.post(
+        HTTParty.post(
           'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
           headers: {
             'Content-Type' => 'application/json',
@@ -56,7 +56,7 @@ class SpeechController < ApplicationController
           },
           body: JSON.generate("locale": 'en-us')
         )
-        @parsed = JSON.parse(connection.body)
+         @parsed = JSON.parse(connection.body)
       create_DB_profile();
       create_profile();
       redirect_to ('/speech')
@@ -74,7 +74,7 @@ class SpeechController < ApplicationController
       
       file = params[:enrollment_file]
 
-      enroll = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/#{@profile.profile_id}/enrollments",
+      enroll = HTTParty.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/#{@profile.profile_id}/enrollments",
       headers: {
           'Content-Type' => 'audio/*',
           'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
@@ -101,7 +101,7 @@ class SpeechController < ApplicationController
           puts "================================"
           puts profileid
           
-          speaker = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=" + profileid.to_s,
+          speaker = HTTParty.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=" + profileid.to_s,
               headers:{
                   'Content-Type' => 'audio/wave',
                   'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
@@ -112,17 +112,13 @@ class SpeechController < ApplicationController
             @score = @identified['identifiedProfile']['score']
             @score1 = ("SCORE :" + @score.to_s)  
             puts @score1;
-            # @hello = "TEXTE"
-            # respond_to do |format|
-            #   format.json { render json:  @identified }
-            # end
-            return @score1
+            redirect_to :speech, :notice =>"#{@score1}" 
             
     end
     def getScore
       puts "======================================================"
       puts @score1
-      return@score1
+      return @score1
     end
     helper_method :getScore
     

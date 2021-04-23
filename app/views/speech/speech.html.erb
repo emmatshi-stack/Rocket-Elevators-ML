@@ -78,8 +78,8 @@
                                     <h2>Select a Speaker</h2>
                                 
                                     <% @profile.each do |p| %>
-                                        <label class="radio" for="Speaker" >
-                                            <input class="" type="radio" name="profile_id" id="Speaker" value="<%=p.profile_id%>">
+                                        <label class="radio" for="<%=p.id%>" >
+                                            <input class="" type="radio" name="profile_id" id="<%=p.id%>" value="<%=p.profile_id%>">
                                              <i></i><%=p.user_name%>
                                              </label>
                                      <% end %>
@@ -92,7 +92,7 @@
 
                                 </div>
                                 <div class="" id="result">
-                                    <h2> **<%= @score1 %>**</h2>
+                                    <h2></h2>
                                 </div>
                             </div>
                     <% end %>
@@ -140,14 +140,15 @@
                     //data: JSON.stringify({_file: document.getElementById("Speaker").value, _profileid: document.getElementById("identification_file")}),  
                     success: function(data) {
                         console.log(data);
-                    console.log("after function :" + data);
-                        var row =  "<h2> ** "+ data +" **</h2>";
-                        $(row).appendTo("#result");
+                    // console.log("after function :" + data);
+                    //     var row =  "<h2> ** "+ data +" **</h2>";
+                    //     $(row).appendTo("#result");
+                        $("#result").val('<%= @score1 %>');
                     }
                 })
-
-                }, 15000);
-                $("#result").show();
+                    $("#result").show();
+                }, 20000);
+                
 
         });
     });
