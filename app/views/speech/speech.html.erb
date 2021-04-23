@@ -40,7 +40,6 @@
     <%# ==============SPEECH TO TEXT TAB ================= %>
             <div class="tab-pane fade" id="speechtotext">
                 <div class="card-block">
-                    <%= form_tag 'speech/speechToText', multipart: true do %>
                         <div class="row">
                             <div class="col-md-4">
                                 <p>UPLOAD YOUR AUDIO FILE HERE</p>
@@ -60,7 +59,6 @@
                             </tr>
                             </div>
                         </div>
-                    <% end %>
                 </div>
             </div>
     <%# ===============INDENTIFICATION TAB ================ %>
@@ -92,7 +90,7 @@
 
                                 </div>
                                 <div class="" id="result">
-                                    <h2> **<%= @hello %>**</h2>
+                                    <h2> ** <%= @score1 %> **</h2>
                                 </div>
                             </div>
                     <% end %>
@@ -108,7 +106,6 @@
 
 
 <script>
-var x;
 
 $(document).ready(function(){
     $("#result").hide();
@@ -117,8 +114,13 @@ $(document).ready(function(){
     // console.log('2');
 
   $("#submitbtn").click(async function(){
-    var y = await Speech.identification()
-    $("#result").show();
+    // var y = await Speech.identification()
+    setTimeout(function(){
+        console.log('1')
+        $("#result").show();//Do what the button normally does
+    }, 5000);  
+    
+
   });
 });
 </script>

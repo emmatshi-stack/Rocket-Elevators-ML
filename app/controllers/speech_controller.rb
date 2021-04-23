@@ -6,7 +6,7 @@ require 'net/http'
 
 class SpeechController < ApplicationController
     before_action :require_login
-    before_action :speech
+    # before_action :speech
     
     # Restricting action only to log in users with authorisation
     
@@ -21,7 +21,8 @@ class SpeechController < ApplicationController
     def speech
       
         @profile = ProfileId.all
-
+        @hello = 'HELLO'
+        # @score = @identified['identifiedProfile']['score']
     end
 ####################################### GET PROFILE FROM AZURE SERVICES ###################
     def get_profile
@@ -105,8 +106,8 @@ class SpeechController < ApplicationController
               body: file,
             )
             @identified =  JSON.parse(speaker.body)
-            @score = @identified['identifiedProfile']['score']
-            @score1 = ("SCORE :" + @score.to_s)  
-            @hello = "TEXTE"
+            # @score = @identified['identifiedProfile']['score']
+            @score1 = ("SCORE :" + @score.to_s) 
+            return @identified
     end
 end
