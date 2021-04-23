@@ -6,7 +6,7 @@ require 'net/http'
 
 class SpeechController < ApplicationController
     before_action :require_login
-    before_action :speech
+    # before_action :speech
     
     
     # Restricting action only to log in users with authorisation
@@ -22,8 +22,8 @@ class SpeechController < ApplicationController
     def speech
       
         @profile = ProfileId.all
-        @score1 = "SCORE :"
-
+        @hello = 'HELLO'
+        # @score = @identified['identifiedProfile']['score']
     end
 ####################################### GET PROFILE FROM AZURE SERVICES ###################
     def get_profile
@@ -48,15 +48,11 @@ class SpeechController < ApplicationController
     def enrollment
      
       connection =
-        HTTParty.post(
-          'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
-          headers: {
-            'Content-Type' => 'application/json',
-            'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
-          },
-          body: JSON.generate("locale": 'en-us')
-        )
-         @parsed = JSON.parse(connection.body)
+      HTTParty.post('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
+        :body => JSON.generate("locale": 'en-us'),
+        :headers => { 'Content-Type' => 'application/json',
+                'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707" })
+        @parsed = JSON.parse(connection.body)
       create_DB_profile();
       create_profile();
       redirect_to ('/speech')
@@ -83,13 +79,10 @@ class SpeechController < ApplicationController
       body: file,
       )
       
-      #puts enroll.body
-      #puts "==============enroll"
       return enroll.body
     end
 ####################################### IDENTIFY PROFILE FROM AUDIO FILE ###################
-    def identification#(_file, _profileid)
-      
+    def identification
         puts "-----------------------------"
         puts params
         puts "-----------------------------"
@@ -101,6 +94,7 @@ class SpeechController < ApplicationController
           puts "================================"
           puts profileid
           
+
           speaker = HTTParty.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=" + profileid.to_s,
               headers:{
                   'Content-Type' => 'audio/wave',
@@ -108,6 +102,7 @@ class SpeechController < ApplicationController
               },
               body: file,
             )
+
             @identified = JSON.parse(speaker.body)
             @score = @identified['identifiedProfile']['score']
             @score1 = ("SCORE :" + @score.to_s)  
@@ -119,6 +114,7 @@ class SpeechController < ApplicationController
       puts "======================================================"
       puts @score1
       return @score1
+
     end
     helper_method :getScore
     

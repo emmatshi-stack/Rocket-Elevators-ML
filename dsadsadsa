@@ -1,0 +1,227 @@
+[33mcommit 3538208f6f1a4a75323fe2239e31ef2c833bad9e[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Merge: b2d62fa 5f24a8b
+Author: adriengobeil3 <adirengobeil3@gmail.com>
+Date:   Fri Apr 23 08:45:58 2021 -0400
+
+    Merge branch 'master' of github.com:emmatshi-stack/Rocket-Elevators-ML
+
+[33mcommit b2d62faa666b86b7dc9a2965a54197896ccdcdd8[m
+Author: adriengobeil3 <adirengobeil3@gmail.com>
+Date:   Fri Apr 23 08:45:56 2021 -0400
+
+    commit before pull
+
+[33mcommit 5f24a8b9a757b2e7aec00a061ec126aa079327a6[m
+Author: meg635 <marie.eve.goupil@gmail.com>
+Date:   Thu Apr 22 13:52:34 2021 -0400
+
+    enroll marie
+
+[33mcommit bfcd420201444626f2c842eae13124fcca9d605b[m
+Author: meg635 <marie.eve.goupil@gmail.com>
+Date:   Thu Apr 22 13:29:53 2021 -0400
+
+    user_name field
+
+[33mcommit 287fb970f234ea62a346e5a5705047eaf6b407b5[m
+Merge: c014bfc 28e77a6
+Author: meg635 <75979390+meg635@users.noreply.github.com>
+Date:   Thu Apr 22 12:25:13 2021 -0400
+
+    Merge pull request #7 from emmatshi-stack/GR2
+    
+    Gr2
+
+[33mcommit 28e77a6fe4c9b1782709f12f9d5cc495a75bc798[m[33m ([m[1;31morigin/GR2[m[33m)[m
+Author: meg635 <marie.eve.goupil@gmail.com>
+Date:   Thu Apr 22 12:23:25 2021 -0400
+
+    radio button
+
+[33mcommit 24c53851364441a5e3dd9aa9958c7e7719e8655a[m
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Thu Apr 22 10:26:37 2021 -0400
+
+    aaaaaa
+
+[33mcommit c014bfc1d43935b3f2ad1a90471359980e7c6067[m
+Merge: 193514d d310b53
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Wed Apr 21 16:53:46 2021 -0400
+
+    Merge pull request #6 from emmatshi-stack/GR2
+    
+    profil form
+
+[33mcommit d310b53e51ca7c7d1436c0f0033afeed0beba599[m
+Author: meg635 <marie.eve.goupil@gmail.com>
+Date:   Wed Apr 21 16:47:24 2021 -0400
+
+    profil form
+
+[33mcommit 193514d540fd0712a7c7d3f3a9c991c8c7682f64[m
+Merge: f03eaeb 1e56e4a
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Wed Apr 21 14:14:31 2021 -0400
+
+    Merge pull request #5 from emmatshi-stack/GR2
+    
+    Gr2
+
+[33mcommit 1e56e4ad774b349e34c33610cff9178837103570[m
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Wed Apr 21 14:13:26 2021 -0400
+
+    4th
+
+[33mcommit 0b6634fcb9c2861fa31b9c6196da2ae5ab5976b0[m
+Merge: d8298c9 f03eaeb
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Wed Apr 21 13:20:50 2021 -0400
+
+    Merge branch 'master' into gr2
+
+[33mcommit d8298c983e0e7bf7226e5c716cd5865e6668e821[m
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Wed Apr 21 13:20:18 2021 -0400
+
+    4th wed
+
+[33mcommit f03eaeb8bd316a18a5d686fb6e32a7b080a7e1b9[m[33m ([m[1;31morigin/transcript[m[33m, [m[1;32mtranscript[m[33m)[m
+Author: adriengobeil3 <adirengobeil3@gmail.com>
+Date:   Wed Apr 21 13:18:35 2021 -0400
+
+    a
+
+[33mcommit bf39a4931cefe55c2e140417b0cb063239d31dac[m
+Author: adriengobeil3 <adirengobeil3@gmail.com>
+Date:   Wed Apr 21 13:15:28 2021 -0400
+
+    removed env
+
+[33mcommit 936c2f601a050a98d712a602f63fecaaea51f8ab[m
+Author: adriengobeil3 <adirengobeil3@gmail.com>
+Date:   Wed Apr 21 13:09:03 2021 -0400
+
+    first test
+
+[33mcommit cd56152161bc84755fd246b2919f71c77a86c7f1[m
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Wed Apr 21 12:28:33 2021 -0400
+
+    wed 2
+
+[33mcommit 3748dd48ec9e0bc8701fb20095d1243b9ace84ca[m
+Merge: 2d89ca5 39b8513
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Wed Apr 21 11:38:16 2021 -0400
+
+    Merge pull request #4 from emmatshi-stack/GR2
+    
+    identify
+
+[33mcommit 39b851369a839267123375fdb5b31348b91866e9[m
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Wed Apr 21 11:37:36 2021 -0400
+
+    identify
+
+[33mcommit 2d89ca563fc1fa70cc1b66ce3a1d3c6b4bceac16[m
+Merge: 1545f2e 7c03b4a
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Wed Apr 21 09:08:25 2021 -0400
+
+    Merge pull request #3 from emmatshi-stack/emmanuel
+    
+    Emmanuel
+
+[33mcommit 1545f2e6c27296e3db9c00b192b0cb29776198ba[m
+Merge: 0f2be89 cd11750
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Wed Apr 21 09:08:02 2021 -0400
+
+    Merge pull request #2 from emmatshi-stack/GR1
+    
+    Gr1
+
+[33mcommit 7c03b4a50d03506b114546a0dbe018fe874985b3[m
+Author: emmatshi-stack <tshibangubiayi@gmail.com>
+Date:   Wed Apr 21 09:03:35 2021 -0400
+
+    WED2
+
+[33mcommit a26439e94348efd20d1ebae9fca13bd6d6c9846f[m
+Author: emmatshi-stack <tshibangubiayi@gmail.com>
+Date:   Wed Apr 21 09:02:08 2021 -0400
+
+    WEDNESDAY MORNING
+
+[33mcommit cd11750576015b5cc01e5fd89e84d88fdba65b93[m[33m ([m[1;31morigin/GR1[m[33m)[m
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Tue Apr 20 14:49:28 2021 -0400
+
+    4th commit
+
+[33mcommit f16aa5921d4e8e0eaaa815e7968dc661486e118e[m
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Tue Apr 20 14:22:02 2021 -0400
+
+    3rd commit
+
+[33mcommit 0f2be8913c647bc973b34e704333ea18c66b1776[m
+Merge: 8f28734 1999f24
+Author: emmatshi-stack <77182634+emmatshi-stack@users.noreply.github.com>
+Date:   Tue Apr 20 11:56:38 2021 -0400
+
+    Merge pull request #1 from emmatshi-stack/GR1
+    
+    Gr1
+
+[33mcommit 1999f24f6b094f48ffd61cc9d3234942c75546e1[m
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Tue Apr 20 11:53:20 2021 -0400
+
+    2nd commit
+
+[33mcommit 604b64d1fe850b40146298e406b0ba496a99e319[m
+Merge: 35c69ac 8f28734
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Tue Apr 20 11:33:46 2021 -0400
+
+    Merge branch 'master' into GR1
+
+[33mcommit 35c69acebe6d8fd701b0d7426c063bced27fb606[m
+Author: riouxg <gabriel.rioux@hotmail.com>
+Date:   Tue Apr 20 10:58:01 2021 -0400
+
+    1st commit
+
+[33mcommit 8f2873437c94920b517ea86cd92d8860b5f37e72[m
+Author: emmatshi-stack <tshibangubiayi@gmail.com>
+Date:   Tue Apr 20 10:54:41 2021 -0400
+
+    tuesday morning
+
+[33mcommit b5dc9b4dd7aa7fd4e9296d1c1f8aefc25c09cb31[m
+Author: emmatshi-stack <tshibangubiayi@gmail.com>
+Date:   Mon Apr 19 14:16:33 2021 -0400
+
+    views restrictions
+
+[33mcommit f0d0595d36e143baf25a95733ec793b228e7d5c6[m
+Author: emmatshi-stack <tshibangubiayi@gmail.com>
+Date:   Mon Apr 19 14:11:16 2021 -0400
+
+    views,controller,model
+
+[33mcommit ff3599928383a9b0ad6c6fc4418228cda2843fe4[m
+Author: emmatshi-stack <tshibangubiayi@gmail.com>
+Date:   Mon Apr 19 13:31:18 2021 -0400
+
+    first
+
+[33mcommit 5dd05ef483a8e4b9bc44c81aacb7355710414d18[m
+Author: emmatshi-stack <77182634+emmatshi-stack@users.noreply.github.com>
+Date:   Mon Apr 19 13:06:26 2021 -0400
+
+    Initial commit

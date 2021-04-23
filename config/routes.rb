@@ -33,8 +33,10 @@ Rails.application.routes.draw do
   post "/speech/enrollment" => "speech#enrollment"
 
   post "/speech/identification" => "speech#identification"
+
   get "/speech/identification" => "speech#identification"
   post "/speech/speechToText" => "speech#speechToText"
+
   get '/residential'  => 'pages#residential'
   get '/charts'       => 'pages#charts'
   get '/diagram'      => 'pages#diagram'

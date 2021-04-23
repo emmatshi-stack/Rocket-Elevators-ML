@@ -40,13 +40,12 @@
     <%# ==============SPEECH TO TEXT TAB ================= %>
             <div class="tab-pane fade" id="speechtotext">
                 <div class="card-block">
-                    <%= form_tag 'speech/speechToText', multipart: true do %>
                         <div class="row">
                             <div class="col-md-4">
                                 <p>UPLOAD YOUR AUDIO FILE HERE</p>
                                 <p><input class="custom-file-upload" type="file" id="filePicker" accept=".wav" data-btn-text="Select a File"/></p>
                                 <div>
-                                    <p><select><option value="">--- Select Language ---</option>
+                                    <p><select id="language-selection"><option value="">--- Select Language ---</option>
                                         <option lang="en" value="english">English</option>
                                         <option lang="fr" value="francais">Francais</option>
                                     </select></p>
@@ -60,7 +59,6 @@
                             </tr>
                             </div>
                         </div>
-                    <% end %>
                 </div>
             </div>
     <%# ===============INDENTIFICATION TAB ================ %>
@@ -92,7 +90,7 @@
 
                                 </div>
                                 <div class="" id="result">
-                                    <h2></h2>
+
                                 </div>
                             </div>
                     <% end %>
@@ -108,22 +106,6 @@
 
 
 <script>
-// window.addEventListener('load', function () {
-//         document.getElementById('submitbtn1').addEventListener("click", function(event){
-//             console.log("ssfshserhggggggggghghgggggggggetehefgrgr")//vas la
-//             $.ajax({
-//                 type: "POST",
-//                 url: "/speech/identification",
-//                 dataType: "json",
-//                 contentType: "application/json",
-//                 success: function(xht){
-
-//                     console.log(xht);
-//                 }
-//             });
-//         })
-// });
-
     $(document).ready(function(){
          $("#result").hide();
         // var x = $.identification()
@@ -152,6 +134,7 @@
 
         });
     });
+
 </script>
   <script>
     // status fields and start button in UI
@@ -179,7 +162,13 @@
 
         var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("6707a37608394bba866355675860c8d8", "southcentralus");
 
-        speechConfig.speechRecognitionLanguage = "en-US";
+        if (document.getElementById("language-selection").value == "english") {
+            speechConfig.speechRecognitionLanguage = "en-US";
+        } else if (document.getElementById("language-selection").value == "francais") {
+            speechConfig.speechRecognitionLanguage = "fr-CA";
+        } else {
+            speechConfig.speechRecognitionLanguage = "en-US";
+        }
         var audioConfig  = SpeechSDK.AudioConfig.fromWavFileInput(audioFile);
         recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
 
