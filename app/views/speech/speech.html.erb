@@ -3,34 +3,36 @@
     <div class="heading-title heading-dotted text-center mb-20">
         <h2> SPEECH RECOGNITION</h2>
     </div>
-    <nav class="nav ">
-        
-        <a class="nav-link" href="#createProfile" data-toggle="tab">CREATE A PROFILE</a>
-        <a class="nav-link" href="#identification"data-toggle="tab">IDENTITY CHECK</a>
-        <a class="nav-link " href="#speechtotext"data-toggle="tab">SPEECH TO TEXT</a>
-       
-    </nav>
+
+    <ul class="nav nav-tabs nav-justified">
+	<li class="nav-item"><a class="active nav-link active" href="#createProfile" data-toggle="tab">Create a Profile</a></li>
+	<li class="nav-item"><a class="nav-link" href="#identification" data-toggle="tab">Identity Check</a></li>
+    <li class="nav-item"><a class="nav-link" href="#speechtotext" data-toggle="tab">Speech to Text</a></li>
+</ul>
+
     <div class="tab-content" style="min-height:300px">
+      
     <%#  ========== CREATE PROFILE TAB ================= %>
-            <div class="tab-pane fade" id="createProfile">
+            <div class="tab-pane active" id="createProfile">
                 <div class="card-block">
                     <%= form_tag 'speech/enrollment', multipart: true do %>
                         <div class="row">
-                            <div class="col-md-12 col-sm-8">
-                                <p>UPLOAD YOUR AUDIO FILE HERE</p>
-                                    <fieldset class="form-group">
-                                        <legend class="col-form-label pt-0">Profil</legend>
-                                    </fieldset>
-                                    <p> <input type="text" name="user_name" id="user_name"> </p>
-                                    <p><input class="custom-file-upload" type="file" accept="audio/*" name="enrollment_file" id="enrollment_file" data-btn-text="Select a File" /><span id ="span"></span></p>
+                            <div class="col-md-4 col-sm-8">
+                                <h4>In order to test the Speaker Recognition function:</h4> <p> 1- Create a profile by uploading an audio file with your own voice (optionnal)</p><p> 2- Go to the 'Identity Check' tab to make a test with an existing profile.</p>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-sm-8">
-                                <%= button_tag(type: 'submit', class: "btn btn-primary", id: "ghj")  do %> IDENTIFY USERS <% end %>
+                            <div class="col-md-8">
+                                    <fieldset class="form-group">
+                                    </fieldset>
+                                    <p><label for="user_name" id="user_name">Enter your Name:</label> 
+                                    <input type="text" class="form-control" name="user_name" id="user_name" style="width:50%"> </p>
+                                    <p><label for="enrollment_file" >Upload Audio File<small> ( .wav file only )</small></label> <input class="custom-file-upload" type="file" accept="audio/*" name="enrollment_file" id="enrollment_file" data-btn-text="Select a File" /><span id ="span"></span></p>
+                            
+                        <%# </div> %>
+                            <%# <div class="col-md-12 col-sm-8"> %>
+                                <%= button_tag(type: 'submit', class: "btn btn-primary", id: "ghj")  do %> Create Voice Profile <% end %>
 
                             </div>
-                        </div>
+                            </div>
                     <% end %>
                 </div>
             </div>
@@ -40,20 +42,24 @@
                 <div class="card-block">
                     <%= form_tag 'speech/speechToText', multipart: true do %>
                         <div class="row">
-                            <div class="col-md-12 col-sm-8">
+                            <div class="col-md-4">
                                 <p>UPLOAD YOUR AUDIO FILE HERE</p>
-                                <input type="file" id="filePicker" accept=".wav" />
+                                <p><input class="custom-file-upload" type="file" id="filePicker" accept=".wav" data-btn-text="Select a File"/></p>
+                                <div>
+                                    <p><select><option value="">--- Select Language ---</option>
+                                        <option lang="en" value="english">English</option>
+                                        <option lang="fr" value="francais">Francais</option>
+                                    </select></p>
+                                </div>
+                                <button class="btn btn-primary" id="startRecognizeOnceAsyncButton">Start recognition</button>
+                            </div>
+                        
+                            <div class="col-md-8">
+                                <div class="heading-title heading-dotted text-center mb-20"><h3>Results</h3></div>
+                                <textarea id="phraseDiv" rows="10" class="form-control"></textarea></td>
+                            </tr>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 col-sm-8">
-                                <td><button id="startRecognizeOnceAsyncButton">Start recognition</button></td>
-                            </div>
-                        </div>
-                        <tr>
-                            <td text-align="right" valign="top">Results</td>
-                            <td><textarea id="phraseDiv" style="display: inline-block;width:500px;height:200px"></textarea></td>
-                        </tr>
                     <% end %>
                 </div>
             </div>
@@ -62,30 +68,33 @@
                 <div class="card-block">
                     <%= form_tag 'speech/identification', multipart: true do %>
                         <div class="row">
-                            <div class="col-md-12 col-sm-8">
-                                <p>UPLOAD YOUR AUDIO FILE HERE</p>
-                                    <fieldset class="form-group">
-      
-                                        <legend class="col-form-label pt-0">Speaker</legend>
-                                        <div name="profilesArray">
-                                            <% @profile.each do |p| %>
-                                        
-                                                <div class="custom-control custom-checkbox custom-control-inline">
-                                                    <input class="custom-control-input identificationCheckbox" type="radio" name="profile_id" id="<%=p.id%>" value="<%=p.profile_id%>">
-                                                    <label class="custom-control-label" for="<%=p.id%>" ><%=p.user_name%></label>
-                                                </div>
-                                            <% end %>
-                                        </div>
-                                    </fieldset>
-                                    <p><input class="custom-file-upload" type="file" accept="audio/*" name="identification_file" id="identification_file" data-btn-text="Select a File" /><span id ="span"></span></p>
+                            <div class="col-md-4 col-sm-8">
+                                <h4>1- Select a Speaker</h4>
+                                <h4>2- Upload your audio file</h4>
+                                <h4>3- See if the selected Speaker is part of the conversation</h4>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-sm-8">
-                                <%= button_tag(type: 'submit', class: "btn btn-primary", id: "ghj")  do %> IDENTIFY USERS <% end %>
+                            <div class="col-md-8" name="">
+                                <div class="">
+                                    <h2>Select a Speaker</h2>
+                                
+                                    <% @profile.each do |p| %>
+                                        <label class="radio" for="<%=p.id%>" >
+                                            <input class="" type="radio" name="profile_id" id="<%=p.id%>" value="<%=p.profile_id%>">
+                                             <i></i><%=p.user_name%>
+                                             </label>
+                                     <% end %>
+                                </div>
+                                <p></p>
+                                <p><input class="custom-file-upload" type="file" accept="audio/*" name="identification_file" id="identification_file" data-btn-text="Select a File" required/><span id ="span"></span></p>
+                            
+                                <div class="" id="ghj">
+                                    <%= button_tag(type: 'submit', class: "btn btn-primary", id: "submitbtn", action:"")  do %> IDENTIFY USERS <% end %>
 
+                                </div>
+                                <div class="" id="result">
+                                    <h2> **<%= @hello %>**</h2>
+                                </div>
                             </div>
-                        </div>
                     <% end %>
                 </div>
             </div>
@@ -95,7 +104,24 @@
 
 <%# ===================== javascrip for speech to text tab =========================%>
 <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+
+<script>
+
+$(document).ready(function(){
+    $("#result").hide();
+    // var x = $.identification()
+    // $.when(x).done(function() {
+    // console.log('2');
+
+  $("#submitbtn").click(async function(){
+    var y = await Speech.identification()
+    $("#result").show();
+
+  });
+});
+</script>
   <script>
     // status fields and start button in UI
     var phraseDiv;
@@ -149,8 +175,8 @@
         SpeechSDK = window.SpeechSDK;
         startRecognizeOnceAsyncButton.disabled = false;
 
-        document.getElementById('content').style.display = 'block';
-        document.getElementById('warning').style.display = 'none';
+        // document.getElementById('content').style.display = 'block';
+        // document.getElementById('warning').style.display = 'none';
       }
     });
   </script>

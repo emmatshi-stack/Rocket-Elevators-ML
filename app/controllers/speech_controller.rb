@@ -7,6 +7,7 @@ require 'net/http'
 class SpeechController < ApplicationController
     before_action :require_login
     before_action :speech
+    
     # Restricting action only to log in users with authorisation
     
     def require_login
@@ -20,6 +21,7 @@ class SpeechController < ApplicationController
     def speech
       
         @profile = ProfileId.all
+
     end
 ####################################### GET PROFILE FROM AZURE SERVICES ###################
     def get_profile
@@ -55,6 +57,7 @@ class SpeechController < ApplicationController
         @parsed = JSON.parse(connection.body)
       create_DB_profile();
       create_profile();
+      redirect_to ('/speech')
     end
     ####################################### CREATE PROFILE IN DATABASE ###################
     def create_DB_profile
@@ -84,23 +87,26 @@ class SpeechController < ApplicationController
     end
 ####################################### IDENTIFY PROFILE FROM AUDIO FILE ###################
     def identification
-      
-      file = params[:identification_file]
-        # puts file
-        profileid = params[:profile_id]
-        # puts "================================"
-        # puts profileid
+        puts "-----------------------------"
+        puts params
+        puts "-----------------------------"
+        
+          file = params[:identification_file]
+          puts file
+          profileid = params[:profile_id]
+          puts "================================"
+          puts profileid
           
-        speaker = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=" + profileid.to_s,
-          headers:{
-            'Content-Type' => 'audio/wave',
-            'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
-          },
-            body: file,
-          )
-        puts speaker.body
-        return JSON.parse(speaker.body)
-    end  
-
-   
+          speaker = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=" + profileid.to_s,
+              headers:{
+                  'Content-Type' => 'audio/wave',
+                  'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+              },
+              body: file,
+            )
+            @identified =  JSON.parse(speaker.body)
+            @score = @identified['identifiedProfile']['score']
+            @score1 = ("SCORE :" + @score.to_s)  
+            @hello = "TEXTE"
+    end
 end
