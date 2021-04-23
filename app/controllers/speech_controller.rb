@@ -5,6 +5,7 @@ require 'net/http'
 
 class SpeechController < ApplicationController
     before_action :require_login
+    before_action :speech
     # Restricting action only to log in users with authorisation
     
     def require_login
@@ -12,76 +13,118 @@ class SpeechController < ApplicationController
           flash[:error] = "You must be logged in to access this section"
           redirect_to main_app.root_path # halts request cycle
         end
-      end
+        
+    end
+
+    def speech
+        @profile = ProfileId.all
+        #puts @profile
+    end
+    #speech();
+
     def new
         @speech = Speech.new
     end
     def get_profile
-        puts "*****************************ghghjfjdkdkng*******************************************"
-        uri = URI('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles')
-            uri.query = URI.encode_www_form({})
-            puts "================================================="
-            puts "URL : #{uri}"
-            puts "================================================="
-
-            request = Net::HTTP::Get.new(uri.request_uri)
-
-            # Creating the GET request with the content-type & key header along with the binary file upload as body
-            request['Ocp-Apim-Subscription-Key'] = '3c43bca9ad884fe39518a5cf3925e707'
-            request.body = "{body}"
-
-            response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
-                http.request(request)
-            end
-
-            puts "================================================="
-            pp response.body
-            puts "================================================="
-    
-            p JSON.parse(response.body)
-            # Rendering the respone body
-           # render json: response.body
-            respond_to do |format|
-                format.json { render json:  response.body }
-            end
-            # render json: JSON.parse(response.body)
+        profil =
+        Excon.get(
+          'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
+          headers: {
+            'Content-Type' => 'application/json',
+            'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+          },
+          body: JSON.generate("locale": 'en-us')
+        )
+        puts "======="
+        puts profil.body
+        @profilTest = profil.body
+        puts "======="
+        
+        return profil.body
+        parsed = JSON.parse(profil.body)
+            return parsed['profiles']
+        rescue Excon::Error => e
+            puts "Error: #{e}"
 
     end
 
 
     def enrollment
-        
+      user_name = params[:user_name]
+      
+        connection =
+        Excon.post(
+          'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
+          headers: {
+            'Content-Type' => 'application/json',
+            'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+          },
+          body: JSON.generate("locale": 'en-us')
+        )
+        puts"==============================="
+        puts params
+        parsed = JSON.parse(connection.body)
+        puts user_name
+      @profile = ProfileId.new
+      @profile.user_name = user_name
+      @profile.profile_id = parsed["profileId"]
+      @profile.save
+      create_profile();
+      
+    end
+
+     def create_profile
+      puts "create profile"
+      puts "-----------------------------"
+      puts params
+      puts "-----------------------------"
+      file = params[:enrollment_file]
+      puts file
+
+      enroll = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/#{@profile.profile_id}/enrollments",
+      headers: {
+          'Content-Type' => 'audio/*',
+          'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+
+      },
+      body: file,
+      )
+      
+     puts enroll.body
+      #puts "==============enroll"
+      return enroll.body
     end
     
    
 
     def identification
+
+
+        puts "-----------------------------"
+        puts params
+        puts "-----------------------------"
         
+          file = params[:identification_file]
+          puts file
+          profileid = params[:profile_id]
+          puts "================================"
+          puts profileid
+          
+          speaker = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=" + profileid.to_s,
+              headers:{
+                  'Content-Type' => 'audio/wave',
+                  'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+              },
+              body: file,
+            )
+            puts speaker.body
+            puts @speech
+            
+            return JSON.parse(speaker.body)
+          
+ 
+          
     end  
-
-    def speechToText
-        # convert file into binary
-        puts "************************************************************************"
-
-        
-    end
-
-    def profile
-        uri = URI('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles')
-        uri.query = URI.encode_www_form({})
-        result = Net::HTTP.new(uri.host, uri.port)
-        request = Net::HTTP::Post.new(uri)
-        request['Content-Type'] = 'application/json'
-        request['Ocp-Apim-Subscription-Key'] = '3c43bca9ad884fe39518a5cf3925e707'
-        request.body = '{ "locale":"en-us", }'
-        response = result.request(request)
-        pp response.body
-        respond_to do |format|
-            format.json { render json:  response.body }
-        end
-    puts "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"
-    end
-    
 
    
 end

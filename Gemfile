@@ -99,3 +99,4 @@ gem 'excon'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 gem 'json'
+gem 'jquery-rails'

@@ -1,3 +1,4 @@
+
 <div class="container">
     <div class="heading-title heading-dotted text-center mb-20">
         <h2> SPEECH RECOGNITION</h2>
@@ -5,35 +6,34 @@
     <nav class="nav ">
         
         <a class="nav-link" href="#createProfile" data-toggle="tab">CREATE A PROFILE</a>
-         <a class="nav-link " href="#get_profile"data-toggle="tab">GET A PROFILE</a>
         <a class="nav-link" href="#identification"data-toggle="tab">IDENTITY CHECK</a>
         <a class="nav-link " href="#speechtotext"data-toggle="tab">SPEECH TO TEXT</a>
        
     </nav>
     <div class="tab-content" style="min-height:300px">
-            <div class="tab-pane active" id="createProfile">
+            <div class="tab-pane fade" id="createProfile">
                 <div class="card-block">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-8">
-                            <div id="createContainer" style="min-height:300px">
+                    <%= form_tag 'speech/enrollment', multipart: true do %>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-8">
+                                <p>UPLOAD YOUR AUDIO FILE HERE</p>
+                                    <fieldset class="form-group">
+                                        <legend class="col-form-label pt-0">Profil</legend>
+                                    </fieldset>
+                                    <p> <input type="text" name="user_name" id="user_name"> </p>
+                                    <p><input class="custom-file-upload" type="file" accept="audio/*" name="enrollment_file" id="enrollment_file" data-btn-text="Select a File" /><span id ="span"></span></p>
                             </div>
-                            <%= button_tag(type: 'submit', class: "btn btn-primary", id: "createProfilesBtn", name: "get_profiles_file") do %> GET ALL PROFILES <% end %>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-8">
+                                <%= button_tag(type: 'submit', class: "btn btn-primary", id: "ghj")  do %> IDENTIFY USERS <% end %>
+
+                            </div>
+                        </div>
+                    <% end %>
                 </div>
             </div>
-            <div class="tab-pane fade" id="get_profile">
-                <div class="card-block">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-8">
-                            <div id="profiles-container" style="min-height:300px">
-                            </div>
-                            <%= button_tag(type: 'submit', class: "btn btn-primary", id: "getAllProfileBtn", name: "get_profiles_file") do %> GET ALL PROFILES <% end %>
-                        </div>
-                    </div>
-                </div>
-            </div>
-               
+                              
 
             <div class="tab-pane fade" id="speechtotext">
                 <div class="card-block">
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <tr>
-                            <td align="right" valign="top">Results</td>
+                            <td text-align="right" valign="top">Results</td>
                             <td><textarea id="phraseDiv" style="display: inline-block;width:500px;height:200px"></textarea></td>
                         </tr>
                     <% end %>
@@ -63,7 +63,20 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-8">
                                 <p>UPLOAD YOUR AUDIO FILE HERE</p>
-                                    <p><input class="custom-file-upload" type="file" accept="audio/*" id="uploadedFile" name="identification_file" id="identification_file" data-btn-text="Select a File" /><span id ="span"></span></p>
+                                    <fieldset class="form-group">
+      
+                                        <legend class="col-form-label pt-0">Speaker</legend>
+                                        <div name="profilesArray">
+                                            <% @profile.each do |p| %>
+                                        
+                                                <div class="custom-control custom-checkbox custom-control-inline">
+                                                    <input class="custom-control-input identificationCheckbox" type="radio" name="profile_id" id="<%=p.id%>" value="<%=p.profile_id%>">
+                                                    <label class="custom-control-label" for="<%=p.id%>" ><%=p.user_name%></label>
+                                                </div>
+                                            <% end %>
+                                        </div>
+                                    </fieldset>
+                                    <p><input class="custom-file-upload" type="file" accept="audio/*" name="identification_file" id="identification_file" data-btn-text="Select a File" /><span id ="span"></span></p>
                             </div>
                         </div>
                         <div class="row">
@@ -79,6 +92,20 @@
     </div>
 </div>
 
+<script>
+    //document.querySelectorAll('input[type=checkbox]')
+    // document.getElementsByTagName("input[type=checkbox]"), function (){
+    //     console.log("ok");
+    // });
+    // window.addEventListener('load', function () {
+    //     document.getElementsById("#\37 6").addEventListener("click", function(event){
+    //         console.log("ok");
+    //     });
+    // });
+    
+
+
+</script>
 <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
 
 <script>
@@ -155,35 +182,35 @@
             });
                 
         })
-        document.getElementById('createProfilesBtn').addEventListener("click", function(event){
-            console.log("CREATE BUTTON DETECTED")
-            $.ajax({
-                type: "POST",
-                url: "/speech/profile",
-                dataType: "json",
-                contentType: "application/json",
-                success: function(xht){
+        // document.getElementById('createProfilesBtn').addEventListener("click", function(event){
+        //     console.log("CREATE BUTTON DETECTED")
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/speech/enrollment",
+        //         dataType: "json",
+        //         contentType: "application/json",
+        //         success: function(xht){
                     
-                    console.log(xht);
-                    var container =  $("#createContainer")
-                    container.html("")
+        //             console.log(xht);
+        //             var container =  $("#createContainer")
+        //             container.html("")
 
-                    secondDivContainer =  $("<div/>")
-                    secondDivContainer.attr("class","row")
+        //             secondDivContainer =  $("<div/>")
+        //             secondDivContainer.attr("class","row")
 
-                    secondDivContainer.append($('<div class="col-6"><label><h4>createdDateTime: </h4></label></div><div class="col-6"><label>' + xht.createdDateTime + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentStatus: </h4></label></div><div class="col-6"><label>' + xht.enrollmentStatus + '</label</div>')); 
-                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsCount: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsCount + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsSpeechLength + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>profileId: </h4></label></div><div class="col-6"><label>' + xht.profileId + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>remainingEnrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>'+ xht.remainingEnrollmentsSpeechLength + '</label>'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>locale: </h4></label></div><div class="col-6"><label>' + xht.locale + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>modelVersion:</h4></label></div><div class="col-6"><label>' + xht.modelVersion + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>createdDateTime: </h4></label></div><div class="col-6"><label>' + xht.createdDateTime + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentStatus: </h4></label></div><div class="col-6"><label>' + xht.enrollmentStatus + '</label</div>')); 
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsCount: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsCount + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsSpeechLength + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>profileId: </h4></label></div><div class="col-6"><label>' + xht.profileId + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>remainingEnrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>'+ xht.remainingEnrollmentsSpeechLength + '</label>'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>locale: </h4></label></div><div class="col-6"><label>' + xht.locale + '</label></div'));
+        //             // secondDivContainer.append($('<div class="col-6"><label><h4>modelVersion:</h4></label></div><div class="col-6"><label>' + xht.modelVersion + '</label></div'));
 
-                    container.append(secondDivContainer)
-                }
-            })
-         })   
+        //             container.append(secondDivContainer)
+        //         }
+        //     })
+        //  })   
     })
 </script>
 
