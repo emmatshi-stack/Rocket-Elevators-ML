@@ -1,77 +1,100 @@
+
 <div class="container">
     <div class="heading-title heading-dotted text-center mb-20">
         <h2> SPEECH RECOGNITION</h2>
     </div>
-    <nav class="nav ">
-        
-        <a class="nav-link" href="#createProfile" data-toggle="tab">CREATE A PROFILE</a>
-         <a class="nav-link " href="#get_profile"data-toggle="tab">GET A PROFILE</a>
-        <a class="nav-link" href="#identification"data-toggle="tab">IDENTITY CHECK</a>
-        <a class="nav-link " href="#speechtotext"data-toggle="tab">SPEECH TO TEXT</a>
-       
-    </nav>
+
+    <ul class="nav nav-tabs nav-justified">
+	<li class="nav-item"><a class="active nav-link active" href="#createProfile" data-toggle="tab">Create a Profile</a></li>
+	<li class="nav-item"><a class="nav-link" href="#identification" data-toggle="tab">Identity Check</a></li>
+    <li class="nav-item"><a class="nav-link" href="#speechtotext" data-toggle="tab">Speech to Text</a></li>
+</ul>
+
     <div class="tab-content" style="min-height:300px">
+      
+    <%#  ========== CREATE PROFILE TAB ================= %>
             <div class="tab-pane active" id="createProfile">
                 <div class="card-block">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-8">
-                            <div id="createContainer" style="min-height:300px">
+                    <%= form_tag 'speech/enrollment', multipart: true do %>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-8">
+                                <h4>In order to test the Speaker Recognition function:</h4> <p> 1- Create a profile by uploading an audio file with your own voice (optionnal)</p><p> 2- Go to the 'Identity Check' tab to make a test with an existing profile.</p>
                             </div>
-                            <%= button_tag(type: 'submit', class: "btn btn-primary", id: "createProfilesBtn", name: "get_profiles_file") do %> GET ALL PROFILES <% end %>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="get_profile">
-                <div class="card-block">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-8">
-                            <div id="profiles-container" style="min-height:300px">
-                            </div>
-                            <%= button_tag(type: 'submit', class: "btn btn-primary", id: "getAllProfileBtn", name: "get_profiles_file") do %> GET ALL PROFILES <% end %>
-                        </div>
-                    </div>
-                </div>
-            </div>
-               
+                            <div class="col-md-8">
+                                    <fieldset class="form-group">
+                                    </fieldset>
+                                    <p><label for="user_name" id="user_name">Enter your Name:</label> 
+                                    <input type="text" class="form-control" name="user_name" id="user_name" style="width:50%"> </p>
+                                    <p><label for="enrollment_file" >Upload Audio File<small> ( .wav file only )</small></label> <input class="custom-file-upload" type="file" accept="audio/*" name="enrollment_file" id="enrollment_file" data-btn-text="Select a File" /><span id ="span"></span></p>
+                            
+                        <%# </div> %>
+                            <%# <div class="col-md-12 col-sm-8"> %>
+                                <%= button_tag(type: 'submit', class: "btn btn-primary", id: "ghj")  do %> Create Voice Profile <% end %>
 
+                            </div>
+                            </div>
+                    <% end %>
+                </div>
+            </div>
+                              
+    <%# ==============SPEECH TO TEXT TAB ================= %>
             <div class="tab-pane fade" id="speechtotext">
                 <div class="card-block">
                     <%= form_tag 'speech/speechToText', multipart: true do %>
                         <div class="row">
-                            <div class="col-md-12 col-sm-8">
+                            <div class="col-md-4">
                                 <p>UPLOAD YOUR AUDIO FILE HERE</p>
-                                <input type="file" id="filePicker" accept=".wav" />
+                                <p><input class="custom-file-upload" type="file" id="filePicker" accept=".wav" data-btn-text="Select a File"/></p>
+                                <div>
+                                    <p><select id="language-selection"><option value="">--- Select Language ---</option>
+                                        <option lang="en" value="english">English</option>
+                                        <option lang="fr" value="francais">Francais</option>
+                                    </select></p>
+                                </div>
+                                <button class="btn btn-primary" id="startRecognizeOnceAsyncButton">Start recognition</button>
+                            </div>
+                        
+                            <div class="col-md-8">
+                                <div class="heading-title heading-dotted text-center mb-20"><h3>Results</h3></div>
+                                <textarea id="phraseDiv" rows="10" class="form-control"></textarea></td>
+                            </tr>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 col-sm-8">
-                                <td><button id="startRecognizeOnceAsyncButton">Start recognition</button></td>
-                            </div>
-                        </div>
-                        <tr>
-                            <td align="right" valign="top">Results</td>
-                            <td><textarea id="phraseDiv" style="display: inline-block;width:500px;height:200px"></textarea></td>
-                        </tr>
                     <% end %>
                 </div>
             </div>
-
+    <%# ===============INDENTIFICATION TAB ================ %>
             <div class="tab-pane fade" id="identification">
                 <div class="card-block">
                     <%= form_tag 'speech/identification', multipart: true do %>
                         <div class="row">
-                            <div class="col-md-12 col-sm-8">
-                                <p>UPLOAD YOUR AUDIO FILE HERE</p>
-                                    <p><input class="custom-file-upload" type="file" accept="audio/*" id="uploadedFile" name="identification_file" id="identification_file" data-btn-text="Select a File" /><span id ="span"></span></p>
+                            <div class="col-md-4 col-sm-8">
+                                <h4>1- Select a Speaker</h4>
+                                <h4>2- Upload your audio file</h4>
+                                <h4>3- See if the selected Speaker is part of the conversation</h4>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-sm-8">
-                                <%= button_tag(type: 'submit', class: "btn btn-primary", id: "ghj")  do %> IDENTIFY USERS <% end %>
+                            <div class="col-md-8" name="">
+                                <div class="">
+                                    <h2>Select a Speaker</h2>
+                                
+                                    <% @profile.each do |p| %>
+                                        <label class="radio" for="<%=p.id%>" >
+                                            <input class="" type="radio" name="profile_id" id="<%=p.id%>" value="<%=p.profile_id%>">
+                                             <i></i><%=p.user_name%>
+                                             </label>
+                                     <% end %>
+                                </div>
+                                <p></p>
+                                <p><input class="custom-file-upload" type="file" accept="audio/*" name="identification_file" id="identification_file" data-btn-text="Select a File" required/><span id ="span"></span></p>
+                            
+                                <div class="" id="ghj">
+                                    <%= button_tag(type: 'submit', class: "btn btn-primary", id: "submitbtn", action:"")  do %> IDENTIFY USERS <% end %>
 
+                                </div>
+                                <div class="" id="result">
+                                    <h2> **<%= @hello %>**</h2>
+                                </div>
                             </div>
-                        </div>
                     <% end %>
                 </div>
             </div>
@@ -79,114 +102,26 @@
     </div>
 </div>
 
+<%# ===================== javascrip for speech to text tab =========================%>
 <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 <script>
-    window.addEventListener('load', function () {
-        document.getElementById('getAllProfileBtn').addEventListener("click", function(event){
-            console.log("ssfshserhetehefgrgr")
-            $.ajax({
-                type: "GET",
-                url: "/speech/get_profile",
-                dataType: "json",
-                contentType: "application/json",
-                success: function(xht){
-                    
-                    console.log(xht);
+var x;
 
-                    var container = $("#profiles-container")
-                    container.html("");
+$(document).ready(function(){
+    $("#result").hide();
+    // var x = $.identification()
+    // $.when(x).done(function() {
+    // console.log('2');
 
-                    var table = $("<table/>")
-                    table.attr("class","table")
-
-                    //build header
-                    var thead  = $("<thead/>")
-                    thead.attr("class","thead-dark")
-                    table.append(thead);
-                    
-
-                    var theadtr = $("<tr/>")
-                    var theadth1 = $("<th>createdDateTime<th/>")
-                    //theadth1.attr("scope","col")
-                    var theadth2 = $("<th>profileId<th/>")
-                // theadth2.attr("scope","col")
-                    var theadth3 = $("<th>enrollmentsCount<th/>")
-                // theadth3.attr("scope","col")
-                    var theadth4 = $("<th>locale<th/>")
-                // theadth4.attr("scope","col")
-                    var theadth5 = $("<th>enrollmentsSpeechLength<th/>")
-                //  theadth5.attr("scope","col")
-
-                    theadtr.append(theadth1)
-                    theadtr.append(theadth2)
-                    theadtr.append(theadth3)
-                    theadtr.append(theadth4)
-                    theadtr.append(theadth4)
-                    theadtr.append(theadth5)
-                    thead.append(theadtr);
-
-                    //build tabl body
-                    for(x in xht.profiles){
-                        var trbd = $("<tr/>")
-                        console.log(xht.profiles[x])
-                        var item = xht.profiles[x];
-                        trbd.append($('<td>'+ item.createdDateTime + '</td>'));
-                        trbd.append("<td/>")
-                        trbd.append($('<td>'+ item.profileId + '</td>'));
-                        trbd.append("<td/>")
-                        trbd.append($('<td>'+ item.enrollmentsCount + '</td>'));
-                        trbd.append("<td/>")
-                        trbd.append($('<td>'+ item.locale + '</td>'));
-                        trbd.append("<td/>")
-                        trbd.append($('<td>'+ item.enrollmentsLength + '</td>'));
-                        trbd.append("<td/>")
-                        table.append(trbd);
-                    }
-            
-                    container.append(table)
-
-                var selector = document.getElementById("intervention_building_id")
-                $(selector).html('<option value="-1">Select building</option>')
-                $(selector).append($.map(xht, function(item){
-                    return $('<option/>', {id: item.id,value: item.id, text: item.id+" - "+item.adm_contact_full_name});
-                }));
-                }
-            });
-                
-        })
-        document.getElementById('createProfilesBtn').addEventListener("click", function(event){
-            console.log("CREATE BUTTON DETECTED")
-            $.ajax({
-                type: "POST",
-                url: "/speech/profile",
-                dataType: "json",
-                contentType: "application/json",
-                success: function(xht){
-                    
-                    console.log(xht);
-                    var container =  $("#createContainer")
-                    container.html("")
-
-                    secondDivContainer =  $("<div/>")
-                    secondDivContainer.attr("class","row")
-
-                    secondDivContainer.append($('<div class="col-6"><label><h4>createdDateTime: </h4></label></div><div class="col-6"><label>' + xht.createdDateTime + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentStatus: </h4></label></div><div class="col-6"><label>' + xht.enrollmentStatus + '</label</div>')); 
-                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsCount: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsCount + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>enrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>' + xht.enrollmentsSpeechLength + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>profileId: </h4></label></div><div class="col-6"><label>' + xht.profileId + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>remainingEnrollmentsSpeechLength: </h4></label></div><div class="col-6"><label>'+ xht.remainingEnrollmentsSpeechLength + '</label>'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>locale: </h4></label></div><div class="col-6"><label>' + xht.locale + '</label></div'));
-                    secondDivContainer.append($('<div class="col-6"><label><h4>modelVersion:</h4></label></div><div class="col-6"><label>' + xht.modelVersion + '</label></div'));
-
-                    container.append(secondDivContainer)
-                }
-            })
-         })   
-    })
+  $("#submitbtn").click(async function(){
+    var y = await Speech.identification()
+    $("#result").show();
+  });
+});
 </script>
-
   <script>
     // status fields and start button in UI
     var phraseDiv;
@@ -213,7 +148,13 @@
 
         var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("6707a37608394bba866355675860c8d8", "southcentralus");
 
-        speechConfig.speechRecognitionLanguage = "en-US";
+        if (document.getElementById("language-selection").value == "english") {
+            speechConfig.speechRecognitionLanguage = "en-US";
+        } else if (document.getElementById("language-selection").value == "francais") {
+            speechConfig.speechRecognitionLanguage = "fr-CA";
+        } else {
+            speechConfig.speechRecognitionLanguage = "en-US";
+        }
         var audioConfig  = SpeechSDK.AudioConfig.fromWavFileInput(audioFile);
         recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
 
@@ -240,8 +181,8 @@
         SpeechSDK = window.SpeechSDK;
         startRecognizeOnceAsyncButton.disabled = false;
 
-        document.getElementById('content').style.display = 'block';
-        document.getElementById('warning').style.display = 'none';
+        // document.getElementById('content').style.display = 'block';
+        // document.getElementById('warning').style.display = 'none';
       }
     });
   </script>
