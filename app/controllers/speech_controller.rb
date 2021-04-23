@@ -7,6 +7,7 @@ require 'net/http'
 class SpeechController < ApplicationController
     before_action :require_login
     before_action :speech
+    
     # Restricting action only to log in users with authorisation
     
     def require_login
@@ -19,9 +20,8 @@ class SpeechController < ApplicationController
 
     def speech
         @profile = ProfileId.all
-        #puts @profile
-    end
-    #speech();
+        @hello = "hello"
+    end    
 
     def new
         @speech = Speech.new
@@ -74,6 +74,7 @@ class SpeechController < ApplicationController
       @profile.profile_id = parsed["profileId"]
       @profile.save
       create_profile();
+      redirect_to ('/speech')
       
     end
 
@@ -102,8 +103,6 @@ class SpeechController < ApplicationController
    
 
     def identification
-
-
         puts "-----------------------------"
         puts params
         puts "-----------------------------"
@@ -121,14 +120,10 @@ class SpeechController < ApplicationController
               },
               body: file,
             )
-            puts speaker.body
-            puts @speech
-            
-            return JSON.parse(speaker.body)
-          
- 
-          
-    end  
-
-   
+            @identified =  JSON.parse(speaker.body)
+            @score = @identified['identifiedProfile']['score']
+            @score1 = ("SCORE :" + @score.to_s)  
+            @hello = "TEXTE"
+    end
+  
 end
