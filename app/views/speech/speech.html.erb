@@ -86,11 +86,11 @@
                                 <p><input class="custom-file-upload" type="file" accept="audio/*" name="identification_file" id="identification_file" data-btn-text="Select a File" required/><span id ="span"></span></p>
                             
                                 <div class="" id="ghj">
-                                    <%= button_tag(type: 'submit', class: "btn btn-primary", id: "submitbtn", action:"")  do %> IDENTIFY USERS <% end %>
+                                    <%= button_tag(type: 'submit', class: "btn btn-primary", id: "submitbtn1", action:"")  do %> IDENTIFY USERS <% end %>
 
                                 </div>
                                 <div class="" id="result">
-                                    <h2> ** <%= @score1 %> **</h2>
+
                                 </div>
                             </div>
                     <% end %>
@@ -106,23 +106,35 @@
 
 
 <script>
+    $(document).ready(function(){
+         $("#result").hide();
+        // var x = $.identification()
+        // $.when(x).done(function() {
+        // console.log('2');
 
-$(document).ready(function(){
-    $("#result").hide();
-    // var x = $.identification()
-    // $.when(x).done(function() {
-    // console.log('2');
+        $("#submitbtn1").click(async function(){
+            setTimeout(() => {  
+                console.log("before ajax");
+                $.ajax({
+                    url:"speech/getScore",
+                    method:"GET",
+                    //dataType: "json",
+                    //data: JSON.stringify({_file: document.getElementById("Speaker").value, _profileid: document.getElementById("identification_file")}),  
+                    success: function(data) {
+                        console.log(data);
+                    // console.log("after function :" + data);
+                    //     var row =  "<h2> ** "+ data +" **</h2>";
+                    //     $(row).appendTo("#result");
+                        $("#result").val('<%= @score1 %>');
+                    }
+                })
+                    $("#result").show();
+                }, 20000);
+                
 
-  $("#submitbtn").click(async function(){
-    // var y = await Speech.identification()
-    setTimeout(function(){
-        console.log('1')
-        $("#result").show();//Do what the button normally does
-    }, 5000);  
-    
+        });
+    });
 
-  });
-});
 </script>
   <script>
     // status fields and start button in UI
