@@ -17,19 +17,15 @@ class SpeechController < ApplicationController
         end
         
     end
-
+####################################### GET PROFILE FROM DATABASE ###################
     def speech
+      
         @profile = ProfileId.all
-        @hello = "hello"
-    end    
 
-    def new
-        @speech = Speech.new
-        puts @speech
-        # @speech = params["file_name"]
     end
-
+####################################### GET PROFILE FROM AZURE SERVICES ###################
     def get_profile
+      
         profil =
         Excon.get(
           'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
@@ -39,11 +35,6 @@ class SpeechController < ApplicationController
           },
           body: JSON.generate("locale": 'en-us')
         )
-        puts "======="
-        puts profil.body
-        @profilTest = profil.body
-        puts "======="
-        
         return profil.body
         parsed = JSON.parse(profil.body)
             return parsed['profiles']
@@ -51,12 +42,10 @@ class SpeechController < ApplicationController
             puts "Error: #{e}"
 
     end
-
-
+####################################### CREATE AND ENROLL NEW PROFILE ###################
     def enrollment
-      user_name = params[:user_name]
       
-        connection =
+      connection =
         Excon.post(
           'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
           headers: {
@@ -65,26 +54,23 @@ class SpeechController < ApplicationController
           },
           body: JSON.generate("locale": 'en-us')
         )
-        puts"==============================="
-        puts params
-        parsed = JSON.parse(connection.body)
-        puts user_name
-      @profile = ProfileId.new
-      @profile.user_name = user_name
-      @profile.profile_id = parsed["profileId"]
-      @profile.save
+        @parsed = JSON.parse(connection.body)
+      create_DB_profile();
       create_profile();
       redirect_to ('/speech')
-      
     end
-
+    ####################################### CREATE PROFILE IN DATABASE ###################
+    def create_DB_profile
+      
+      @profile = ProfileId.new
+      @profile.user_name = params[:user_name]
+      @profile.profile_id = @parsed["profileId"]
+      @profile.save
+    end
+####################################### ENROLL PROFILE ###################
      def create_profile
-      puts "create profile"
-      puts "-----------------------------"
-      puts params
-      puts "-----------------------------"
+      
       file = params[:enrollment_file]
-      puts file
 
       enroll = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/#{@profile.profile_id}/enrollments",
       headers: {
@@ -95,13 +81,11 @@ class SpeechController < ApplicationController
       body: file,
       )
       
-     puts enroll.body
+      #puts enroll.body
       #puts "==============enroll"
       return enroll.body
     end
-    
-   
-
+####################################### IDENTIFY PROFILE FROM AUDIO FILE ###################
     def identification
         puts "-----------------------------"
         puts params
@@ -125,5 +109,4 @@ class SpeechController < ApplicationController
             @score1 = ("SCORE :" + @score.to_s)  
             @hello = "TEXTE"
     end
-  
 end

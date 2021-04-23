@@ -11,6 +11,8 @@
 </ul>
 
     <div class="tab-content" style="min-height:300px">
+      
+    <%#  ========== CREATE PROFILE TAB ================= %>
             <div class="tab-pane active" id="createProfile">
                 <div class="card-block">
                     <%= form_tag 'speech/enrollment', multipart: true do %>
@@ -35,7 +37,7 @@
                 </div>
             </div>
                               
-
+    <%# ==============SPEECH TO TEXT TAB ================= %>
             <div class="tab-pane fade" id="speechtotext">
                 <div class="card-block">
                     <%= form_tag 'speech/speechToText', multipart: true do %>
@@ -61,7 +63,7 @@
                     <% end %>
                 </div>
             </div>
-
+    <%# ===============INDENTIFICATION TAB ================ %>
             <div class="tab-pane fade" id="identification">
                 <div class="card-block">
                     <%= form_tag 'speech/identification', multipart: true do %>
@@ -100,22 +102,10 @@
     </div>
 </div>
 
-<script>
-    //document.querySelectorAll('input[type=checkbox]')
-    // document.getElementsByTagName("input[type=checkbox]"), function (){
-    //     console.log("ok");
-    // });
-    // window.addEventListener('load', function () {
-    //     document.getElementsById("#\37 6").addEventListener("click", function(event){
-    //         console.log("ok");
-    //     });
-    // });
-    
-
-
-</script>
+<%# ===================== javascrip for speech to text tab =========================%>
 <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 <script>
 
@@ -132,7 +122,6 @@ $(document).ready(function(){
   });
 });
 </script>
-
   <script>
     // status fields and start button in UI
     var phraseDiv;
