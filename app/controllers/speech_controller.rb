@@ -47,14 +47,10 @@ class SpeechController < ApplicationController
     def enrollment
       
       connection =
-        Excon.post(
-          'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
-          headers: {
-            'Content-Type' => 'application/json',
-            'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
-          },
-          body: JSON.generate("locale": 'en-us')
-        )
+      HTTParty.post('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
+        :body => JSON.generate("locale": 'en-us'),
+        :headers => { 'Content-Type' => 'application/json',
+                'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707" })
         @parsed = JSON.parse(connection.body)
       create_DB_profile();
       create_profile();
@@ -72,15 +68,20 @@ class SpeechController < ApplicationController
      def create_profile
       
       file = params[:enrollment_file]
+      enroll =
+      HTTParty.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/#{@profile.profile_id}/enrollments",
+        :body => JSON.generate("locale": 'en-us'),
+        :headers => { 'Content-Type' => 'application/json',
+                'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707" })
 
-      enroll = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/#{@profile.profile_id}/enrollments",
-      headers: {
-          'Content-Type' => 'audio/*',
-          'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+      # enroll = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/#{@profile.profile_id}/enrollments",
+      # headers: {
+      #     'Content-Type' => 'audio/*',
+      #     'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
 
-      },
-      body: file,
-      )
+      # },
+      # body: file,
+      # )
       
       #puts enroll.body
       #puts "==============enroll"
