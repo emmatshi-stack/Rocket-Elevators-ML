@@ -8,6 +8,7 @@ class SpeechController < ApplicationController
     before_action :require_login
     before_action :speech
     
+    
     # Restricting action only to log in users with authorisation
     
     def require_login
@@ -21,6 +22,7 @@ class SpeechController < ApplicationController
     def speech
       
         @profile = ProfileId.all
+        @score1 = "SCORE :"
 
     end
 ####################################### GET PROFILE FROM AZURE SERVICES ###################
@@ -86,14 +88,16 @@ class SpeechController < ApplicationController
       return enroll.body
     end
 ####################################### IDENTIFY PROFILE FROM AUDIO FILE ###################
-    def identification
+    def identification#(_file, _profileid)
+      
         puts "-----------------------------"
         puts params
         puts "-----------------------------"
-        
+        # file = _file
           file = params[:identification_file]
           puts file
           profileid = params[:profile_id]
+          # profileid = _profileid
           puts "================================"
           puts profileid
           
@@ -104,9 +108,22 @@ class SpeechController < ApplicationController
               },
               body: file,
             )
-            @identified =  JSON.parse(speaker.body)
+            @identified = JSON.parse(speaker.body)
             @score = @identified['identifiedProfile']['score']
             @score1 = ("SCORE :" + @score.to_s)  
-            @hello = "TEXTE"
+            puts @score1;
+            # @hello = "TEXTE"
+            # respond_to do |format|
+            #   format.json { render json:  @identified }
+            # end
+            return @score1
+            
     end
+    def getScore
+      puts "======================================================"
+      puts @score1
+      return@score1
+    end
+    helper_method :getScore
+    
 end
