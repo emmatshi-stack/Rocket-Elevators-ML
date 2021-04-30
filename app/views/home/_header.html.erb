@@ -71,7 +71,7 @@
 									
 										<% if current_user%>
 											<% if current_user.admin%>
-											<%= link_to "SPEECH RECOGN" , "#{root_path}speech#speech"%>
+											<%= link_to "SPEECH" , "#{root_path}speech#speech"%>
 											<% end %>
 										<% end %>
 								
@@ -81,7 +81,7 @@
 									<li>
 									
 										<% if !current_user %>
-										<a href=<%= "signin" %>>LOGIN</a>
+										<a href=<%= "signin" %>>LOG IN</a>
 										<% end %>
 									
 									</li>
