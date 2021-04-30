@@ -8,7 +8,6 @@ class SpeechController < ApplicationController
     before_action :require_login
     # before_action :speech
     
-    
     # Restricting action only to log in users with authorisation
     
     def require_login
@@ -29,7 +28,7 @@ class SpeechController < ApplicationController
     def get_profile
       
         profil =
-        HTTParty.get(
+        Excon.get(
           'https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
           headers: {
             'Content-Type' => 'application/json',
@@ -40,13 +39,13 @@ class SpeechController < ApplicationController
         return profil.body
         parsed = JSON.parse(profil.body)
             return parsed['profiles']
-        rescue HTTParty::Error => e
+        rescue Excon::Error => e
             puts "Error: #{e}"
 
     end
 ####################################### CREATE AND ENROLL NEW PROFILE ###################
     def enrollment
-     
+      
       connection =
       HTTParty.post('https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles',
         :body => JSON.generate("locale": 'en-us'),
@@ -69,53 +68,47 @@ class SpeechController < ApplicationController
      def create_profile
       
       file = params[:enrollment_file]
+      enroll =
+      HTTParty.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/#{@profile.profile_id}/enrollments",
+        :body => JSON.generate("locale": 'en-us'),
+        :headers => { 'Content-Type' => 'application/json',
+                'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707" })
 
-      enroll = HTTParty.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/#{@profile.profile_id}/enrollments",
-      headers: {
-          'Content-Type' => 'audio/*',
-          'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
+      # enroll = Excon.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/#{@profile.profile_id}/enrollments",
+      # headers: {
+      #     'Content-Type' => 'audio/*',
+      #     'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
 
-      },
-      body: file,
-      )
+      # },
+      # body: file,
+      # )
       
+      #puts enroll.body
+      #puts "==============enroll"
       return enroll.body
     end
 ####################################### IDENTIFY PROFILE FROM AUDIO FILE ###################
-    def identification
+    def identification(file, profilId)
         puts "-----------------------------"
         puts params
         puts "-----------------------------"
-        # file = _file
+        
           file = params[:identification_file]
           puts file
           profileid = params[:profile_id]
-          # profileid = _profileid
           puts "================================"
           puts profileid
           
-
-          speaker = HTTParty.post("https://eastus.api.cognitive.microsoft.com/speaker/identification/v2.0/text-independent/profiles/identifySingleSpeaker?profileIds=" + profileid.to_s,
+          speaker = Excon.post("050735ba-4032-48c3-995a-07a08d293bf5",
               headers:{
                   'Content-Type' => 'audio/wave',
                   'Ocp-Apim-Subscription-Key' => "3c43bca9ad884fe39518a5cf3925e707"
               },
               body: file,
             )
-
-            @identified = JSON.parse(speaker.body)
-            @score = @identified['identifiedProfile']['score']
-            @score1 = ("SCORE :" + @score.to_s)  
-            puts @score1;
-            redirect_to :speech, :notice =>"#{@score1}" 
-            
+            @identified =  JSON.parse(speaker.body)
+            # @score = @identified['identifiedProfile']['score']
+            @score1 = ("SCORE :" + @score.to_s) 
+            return @identified
     end
-    def getScore
-      puts "======================================================"
-      puts @score1
-      return @score1
-
-    end
-    helper_method :getScore
-    
 end

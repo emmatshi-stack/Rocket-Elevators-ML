@@ -28,15 +28,9 @@ Rails.application.routes.draw do
   
   get "/speech/get_profile" => "speech#get_profile"
   get "/speech/profile" => "speech#profile"
-  get "/speech/getScore" => "speech#getScore"
-  
   post "/speech/enrollment" => "speech#enrollment"
 
   post "/speech/identification" => "speech#identification"
-
-  get "/speech/identification" => "speech#identification"
-  post "/speech/speechToText" => "speech#speechToText"
-
   get '/residential'  => 'pages#residential'
   get '/charts'       => 'pages#charts'
   get '/diagram'      => 'pages#diagram'
