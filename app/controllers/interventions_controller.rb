@@ -21,13 +21,15 @@ class InterventionsController < ApplicationController
         
         puts params
         custid = params["custormerid"]
-
-        var s = "select * from customer where cusotmerid = "+custid
+        puts custid
+        
         buildings = Building.where(:customer_id => custid)
         puts buildings.inspect
         respond_to do |format|
-         format.json { render json: buildings }
+            puts "pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp"
+            format.json { render json: buildings }
         end
+        
 
     end
     # selecting batteries with belonging to the building selected
@@ -144,34 +146,34 @@ class InterventionsController < ApplicationController
             #dropbox()
 
             #call to send a zendesk ticket
-            client = ZendeskAPI::Client.new do |config|
-                config.url = ENV["ZENDESK_URL"]
-                config.username = ENV["ZENDESK_EMAIL"]
-                config.token = ENV["ZENDESK_TOKEN"]
-            end
+            # client = ZendeskAPI::Client.new do |config|
+            #     config.url = ENV["ZENDESK_URL"]
+            #     config.username = ENV["ZENDESK_EMAIL"]
+            #     config.token = ENV["ZENDESK_TOKEN"]
+            # end
     
-            ZendeskAPI::Ticket.create!(client,
-            :subject => "#{intervention.id} from #{intervention.id}",
-            :comment => {
-                :value => "An intervention form has been submitted by the employee having the following information: 
-                The Requester: #{intervention.author} ftps://waws-prod-blu-207.ftp.azurewebsites.windows.net/site/wwwroot 
-                Building ID: #{intervention.building_id}
-                The Battery ID: #{intervention.battery_id}
-                The Column ID : #{intervention.column_id}
-                Elevator ID if specified: #{intervention.elevator_id}
-                Description of the request for intervention: #{intervention.reports}
+            # ZendeskAPI::Ticket.create!(client,
+            # :subject => "#{intervention.id} from #{intervention.id}",
+            # :comment => {
+            #     :value => "An intervention form has been submitted by the employee having the following information: 
+            #     The Requester: #{intervention.author} ftps://waws-prod-blu-207.ftp.azurewebsites.windows.net/site/wwwroot 
+            #     Building ID: #{intervention.building_id}
+            #     The Battery ID: #{intervention.battery_id}
+            #     The Column ID : #{intervention.column_id}
+            #     Elevator ID if specified: #{intervention.elevator_id}
+            #     Description of the request for intervention: #{intervention.reports}
 
-                Thank you Rocket Elevator is there for your vertical transportation need.
+            #     Thank you Rocket Elevator is there for your vertical transportation need.
     
                 
     
-                Attached Message: 
+            #     Attached Message: 
     
-                The Contact uploaded an attachment"
-            },
-            :priority => "normal",
-            :type => "question"
-            )
+            #     The Contact uploaded an attachment"
+            # },
+            # :priority => "normal",
+            # :type => "question"
+            # )
 
             #redirecting to success page after saving the form
             redirect_to success_url
