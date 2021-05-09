@@ -164,7 +164,7 @@ class InterventionsController < ApplicationController
             #     Description of the request for intervention: #{intervention.reports}
 
             #     Thank you Rocket Elevator is there for your vertical transportation need.
-    
+    #
                 
     
             #     Attached Message: 
